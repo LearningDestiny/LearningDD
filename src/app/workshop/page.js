@@ -1,9 +1,12 @@
+
 'use client';
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, Suspense } from 'react';
+import { useRouter } from 'next/navigation';
 import { FaPlayCircle } from 'react-icons/fa';
 import { Header } from '@/components/landing-page'; // Importing the Header component
 import PaymentHandlerButton from '@/components/PaymentHandlerButton'; // Importing the payment button
+import { useSearchParams } from 'next/navigation'; // Using next/navigation
+
 
 const workshops = [
   {
@@ -44,24 +47,24 @@ const workshops = [
   },
 ];
 
-const Workshop = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const searchParams = new URLSearchParams(location.search);
-  const searchQuery = searchParams.get('search')?.toLowerCase() || '';
-  const [hoveredWorkshop, setHoveredWorkshop] = useState(null);
-
+// Component to handle the workshop filtering logic
+const FilteredWorkshops = ({ searchQuery, onHover, onLeave, hoveredWorkshop }) => {
   // Filter workshops based on the search query
-  const filteredWorkshops = workshops.filter(workshop =>
-    workshop.title.toLowerCase().includes(searchQuery) ||
-    workshop.description.toLowerCase().includes(searchQuery)
+  const filteredWorkshops = workshops.filter(
+    (workshop) =>
+      workshop.title.toLowerCase().includes(searchQuery) ||
+      workshop.description.toLowerCase().includes(searchQuery)
   );
 
-  const handleEnrollClick = (workshopId) => {
-    navigate(`/enroll/${workshopId}`);
+  const priceValue = (price) => {
+    if (price === 'Free') {
+      return 0;
+    } else {
+      const priceFloat = parseFloat(price.replace(/[^0-9.-]+/g, '').replace(',', ''));
+      return priceFloat;
+    }
   };
 
-  // Inline styles for square card layout
   const cardStyles = {
     position: 'relative',
     width: '100%',
@@ -102,62 +105,71 @@ const Workshop = () => {
     zIndex: -1,
   };
 
-  const priceValue = (price) => {
-    if (price === 'Free') {
-      return 0;
-    } else {
-      const priceFloat = parseFloat(price.replace(/[^0-9.-]+/g, '').replace(',', ''));
-      return priceFloat;
-    }
-  };
+  if (filteredWorkshops.length === 0) {
+    return <p className="text-center text-gray-500">No workshops found matching your search.</p>;
+  }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900"> {/* Apply the gradient background */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      {filteredWorkshops.map((workshop) => (
+        <div
+          key={workshop.id}
+          style={cardStyles}
+          onMouseEnter={() => onHover(workshop.id)}
+          onMouseLeave={() => onLeave(null)}
+        >
+          <img src={workshop.imageUrl} alt={workshop.title} style={imageStyles} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '16px', background: 'rgba(0, 0, 0, 0.8)', width: '100%' }}>
+            <h4 className="font-semibold text-sm text-white">{workshop.title}</h4>
+            <p className="text-xs text-gray-300">{workshop.instructor}</p>
+            <p className="font-bold text-sm text-white mt-1">{workshop.price}</p>
+          </div>
+          <div style={hoveredWorkshop === workshop.id ? hoveredCardOverlay : hiddenOverlay}>
+            <h4 className="font-semibold text-sm">{workshop.title}</h4>
+            <p className="text-xs mt-1">{workshop.lastUpdated}</p>
+            <p className="text-xs mt-2">
+              {workshop.duration} total hours · {workshop.lectureCount} lectures · All Levels
+            </p>
+            <p className="text-xs mt-2">{workshop.description}</p>
+            <ul className="text-xs mt-2">
+              {workshop.highlights.map((highlight, index) => (
+                <li key={index} className="flex items-center mt-0">
+                  <FaPlayCircle className="mr-1 text-blue-500" /> {highlight}
+                </li>
+              ))}
+            </ul>
+            {/* Payment Button Integration */}
+            <PaymentHandlerButton finalAmt={priceValue(workshop.price)} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const Workshop = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('search')?.toLowerCase() || '';
+  const [hoveredWorkshop, setHoveredWorkshop] = useState(null);
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900">
       <Header /> {/* Adding the Header component */}
-    
-      <div className="container mx-auto py-8 px-4 md:px-8" style={{ backgroundColor: 'transparent', color: '#000', marginTop: '2rem' }}> {/* Changed background color to transparent */}
-      
+
+      <div className="container mx-auto py-8 px-4 md:px-8" style={{ backgroundColor: 'transparent', color: '#000', marginTop: '2rem' }}>
         {/* All Workshops Section */}
         <section>
           <h2 className="text-4xl font-bold mb-8 text-center text-white">All Workshops</h2>
-          {filteredWorkshops.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {filteredWorkshops.map(workshop => (
-                <div
-                  key={workshop.id}
-                  style={cardStyles}
-                  onMouseEnter={() => setHoveredWorkshop(workshop.id)}
-                  onMouseLeave={() => setHoveredWorkshop(null)}
-                >
-                  <img src={workshop.imageUrl} alt={workshop.title} style={imageStyles} />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '16px', background: 'rgba(0, 0, 0, 0.8)', width: '100%' }}>
-                    <h4 className="font-semibold text-sm text-white">{workshop.title}</h4>
-                    <p className="text-xs text-gray-300">{workshop.instructor}</p>
-                    <p className="font-bold text-sm text-white mt-1">{workshop.price}</p>
-                  </div>
-                  <div
-                    style={hoveredWorkshop === workshop.id ? hoveredCardOverlay : hiddenOverlay}
-                  >
-                    <h4 className="font-semibold text-sm">{workshop.title}</h4>
-                    <p className="text-xs mt-1">{workshop.lastUpdated}</p>
-                    <p className="text-xs mt-2">{workshop.duration} total hours · {workshop.lectureCount} lectures · All Levels</p>
-                    <p className="text-xs mt-2">{workshop.description}</p>
-                    <ul className="text-xs mt-2">
-                      {workshop.highlights.map((highlight, index) => (
-                        <li key={index} className="flex items-center mt-0">
-                          <FaPlayCircle className="mr-1 text-blue-500" /> {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                    {/* Payment Button Integration */}
-                    <PaymentHandlerButton finalAmt={priceValue(workshop.price)} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-center text-gray-500">No workshops found matching your search.</p>
-          )}
+
+          <Suspense fallback={<div>Loading workshops...</div>}>
+            <FilteredWorkshops
+              searchQuery={searchQuery}
+              onHover={setHoveredWorkshop}
+              onLeave={setHoveredWorkshop}
+              hoveredWorkshop={hoveredWorkshop}
+            />
+          </Suspense>
         </section>
       </div>
     </div>

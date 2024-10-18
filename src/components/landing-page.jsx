@@ -173,7 +173,7 @@ function CallToAction() {
           <h2 className="text-2xl font-bold mb-2">Turning Dreams into Destinies.</h2>
           <p className="max-w-[600px] text-black text-base">
             learners who are transforming their lives through education. 
-           <p>Start your journey today!</p> 
+           <span>Start your journey today!</span> 
           </p>
         </div>
 
@@ -229,7 +229,7 @@ function CallToAction() {
       {/* Footer Bottom Section */}
       <div className="text-center text-black text-xs">
         <p className="mb-1">&copy; {new Date().getFullYear()} Learning Destiny Pvt. Ltd. All rights reserved.</p>
-        <p>
+        <span>
           By signing up, you agree to our{" "}
           <Link href="/Terms" className="underline underline-offset-2 hover:text-blue-700 transition-colors duration-300">
             Terms & Conditions 
@@ -243,7 +243,7 @@ function CallToAction() {
           <Link href="/cancallation" className="underline underline-offset-2 hover:text-blue-700 transition-colors duration-300">
             cancallation and refund
           </Link>
-        </p>
+        </span>
       </div>
     </div>
   </footer>

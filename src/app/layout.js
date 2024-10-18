@@ -1,7 +1,7 @@
 'use client'
 import localFont from "next/font/local";
 import "./globals.css";
-import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { ClerkProvider} from '@clerk/nextjs'
 import { Toaster } from "@/components/ui/toaster";
 import { BrowserRouter } from "react-router-dom";
 
@@ -24,7 +24,7 @@ const geistMono = localFont({
 
 export default function RootLayout({ children }) {
   return (
-    <BrowserRouter>
+    // <BrowserRouter>
 
     <ClerkProvider>
 
@@ -32,19 +32,14 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {/* <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn> */}
+      
           {children}
           <Toaster />
 
         </body>
       </html>
     </ClerkProvider>
-    </BrowserRouter>
+    // </BrowserRouter>
 
   );
 }

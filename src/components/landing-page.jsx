@@ -11,21 +11,29 @@ import { Linkedin, Instagram, Mail, Phone } from "lucide-react";
  // Import your Footer component
 import PrivacyPolicy from './ui/policy';
 import TermsAndConditions from './ui/Terms';
+import { Menu, X } from "lucide-react"; // Hamburger and close icon for mobile menu
+import { useState } from "react";
 
 // ------------------------------------
 // Header Component (with indigo-900 background and logo with text)
 // ------------------------------------
 export function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State to manage mobile menu visibility
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <header className="px-4 lg:px-6 h-14 flex items-center bg-white text-indigo-900">
+    <header className="relative z-50 px-4 lg:px-6 h-14 flex items-center bg-white text-indigo-900 shadow-md">
       {/* Left section with logo and company name */}
       <a className="flex items-center justify-center" href="/landing-page">
         <img src="/TransparentLogo.png" alt="Learning Destiny Logo" className="h-8 w-8 mr-2" />
         <span className="text-lg font-semibold">Learning Destiny Pvt. Ltd.</span>
       </a>
 
-      {/* Navigation Links */}
-      <nav className="ml-auto flex gap-4 sm:gap-6 justify-center items-center">
+      {/* Desktop Navigation Links */}
+      <nav className="hidden md:flex ml-auto gap-4 sm:gap-6 justify-center items-center">
         <Link className="text-sm font-medium hover:underline underline-offset-4" href="/Courses">
           Courses
         </Link>
@@ -51,16 +59,72 @@ export function Header() {
           <UserButton />
         </SignedIn>
       </nav>
+
+      {/* Mobile Menu Icon */}
+      <div className="md:hidden ml-auto">
+        <button onClick={toggleMobileMenu} aria-label="Toggle mobile menu">
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Menu (visible when the icon is clicked) */}
+      {isMobileMenuOpen && (
+        <nav
+          className="absolute top-14 left-0 w-full bg-white shadow-lg py-4 flex flex-col items-center gap-4 z-50"
+          style={{ height: "35vh", overflowY: "auto" }} // Ensures the full screen is used for mobile menu
+        >
+          <ul className="flex flex-col items-center gap-4">
+            <li>
+              <Link href="/Courses" className="font-medium hover:underline underline-offset-4" onClick={toggleMobileMenu}>
+                Courses
+              </Link>
+            </li>
+            <li>
+              <Link href="/AboutUs" className="font-medium hover:underline underline-offset-4" onClick={toggleMobileMenu}>
+                About Us
+              </Link>
+            </li>
+            <li>
+              <Link href="/Events" className="font-medium hover:underline underline-offset-4" onClick={toggleMobileMenu}>
+                Events
+              </Link>
+            </li>
+            <li>
+              <Link href="/workshop" className="font-medium hover:underline underline-offset-4" onClick={toggleMobileMenu}>
+                Workshops
+              </Link>
+            </li>
+            <li>
+              <Link href="/inten" className="font-medium hover:underline underline-offset-4" onClick={toggleMobileMenu}>
+                Internship
+              </Link>
+            </li>
+            <li>
+              <Link href="/dashboard" className="font-medium hover:underline underline-offset-4" onClick={toggleMobileMenu}>
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+            </li>
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }
-
 // ------------------------------------
-// Hero Section Component
+// Hero Section Component (Responsive)
 // ------------------------------------
 function HeroSection() {
   return (
     <div className="relative w-full h-screen">
+      {/* Background Image with Overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{
@@ -75,25 +139,28 @@ function HeroSection() {
       {/* Content Section */}
       <section className="relative w-full h-full py-12 mx-auto flex items-center justify-center md:py-24 lg:py-32 xl:py-48 z-10">
         <div className="container px-4 md:px-6 m-auto">
-          <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between">
-            <div className="mb-8 md:mb-0 md:mr-8">
+          <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto">
+            {/* Left Section (Image) */}
+            <div className="mb-8 md:mb-0 md:mr-8 w-full md:w-auto flex justify-center">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TransparentLogo-oYhKQxpFbcatt7U6MK0GLl3qx7XCtG.png"
-                alt="Learning Destiny Logo"
-                width={300}
-                height={400}
+                src="ll.png"
+                alt="Learning Destiny"
+                width={170}
+                height={300}
                 className="animate-fade-in"
               />
             </div>
-            <div className="text-left">
+
+            {/* Right Section (Text Content) */}
+            <div className="text-center md:text-left">
               <h1 className="text-4xl md:text-6xl font-extrabold mb-6 animate-fade-in tracking-tight text-white">
                 Transforming Education, Shaping Careers.
               </h1>
               <p className="text-xl md:text-2xl font-light mb-4 max-w-3xl text-white">
                 We provide more than courses—we build communities, nurture talents, and create opportunities.
               </p>
-              <div className="space-x-4">
-                <Link href="/sign-in" className="inline-block bg-primary text-white py-3 px-6 rounded-lg shadow-lg hover:bg-primary-dark transition duration-300">
+              <div className="space-x-0 md:space-x-4 flex flex-col md:flex-row items-center">
+                <Link href="/sign-in" className="inline-block bg-primary text-white py-3 px-6 rounded-lg shadow-lg hover:bg-primary-dark transition duration-300 mb-4 md:mb-0">
                   Get Started
                 </Link>
                 <Link href="/AboutUs" className="inline-block bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-primary transition duration-300">
@@ -107,6 +174,7 @@ function HeroSection() {
     </div>
   );
 }
+
 
 // ------------------------------------
 // Key Features Component
@@ -179,36 +247,43 @@ function CallToAction() {
 
         {/* Footer Links Section */}
         <div className="flex flex-col md:flex-row md:w-1/3 space-y-6 md:space-y-0 md:space-x-8">
-          <div className="flex flex-col items-center md:items-start">
-            <h3 className="text-lg font-semibold mb-2">Learn</h3>
-            <ul className="space-y-1">
-              <li>
-                <Link href="/Courses" className="text-black hover:text-blue-700 transition-colors duration-300">
-                  Courses
-                </Link>
-              </li>
-              
-            </ul>
-          </div>
+  {/* Learn Section */}
+  <div className="flex flex-col items-center md:items-start">
+    <h3 className="text-lg font-semibold mb-2">Learn</h3>
+    <ul className="space-y-1">
+      <li>
+        <Link href="/Courses" className="text-black hover:text-blue-700 transition-colors duration-300">
+          Courses
+        </Link>
+      </li>
+    </ul>
+  </div>
 
-          <div className="flex flex-col items-center md:items-start">
-            <h3 className="text-lg font-semibold mb-2">Connect</h3>
-            <ul className="space-y-1">
-              <li>
-                <a href="tel:+919059898900" className="text-black hover:text-blue-700 transition-colors duration-300">
-                  +91 90598 98900
-                </a>
-              </li>
-              <li>
-                <Link href="/ContactUs" className="text-black hover:text-blue-700 transition-colors duration-300">
-                <h1 >Address</h1>
-                2-4-149, 2nd Floor, JR Edifice, Snehapuri x Road, Nagole, Medchal Dist., Hyderabad - 500035, TG.
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+  {/* Connect Section */}
+  <div className="flex flex-col items-center md:items-start">
+    <h3 className="text-lg font-semibold mb-2">Connect</h3>
+    <ul className="space-y-1">
+      <li>
+        {/* Mobile number will now be centered on mobile view */}
+        <a href="tel:+919059898900" className="text-black hover:text-blue-700 transition-colors duration-300 text-center md:text-left">
+        <h3 className="text-lg  mb-2 text-center md:text-left">+91 9059898900</h3>
+        </a>
+      </li>
+      <li>
+        {/* Address will now be centered on mobile view */}
+        <Link href="/ContactUs" className="text-black hover:text-blue-700 transition-colors duration-300">
+          <h3 className="text-lg font-semibold mb-2 text-center md:text-left">Address</h3>
+          <p className="text-center md:text-left">
+            2-4-149, 2nd Floor, JR Edifice,<br />
+            Snehapuri x Road, Nagole,<br />
+            Medchal Dist., Hyderabad - 500035, TG.
+          </p>
+        </Link>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
 
       {/* Social Media Icons */}
       <div className="flex justify-center space-x-4 my-6">

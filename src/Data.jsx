@@ -756,7 +756,7 @@ export const courses = [
     lastUpdated: "February 2025",
     duration: "130 hours",
     lectureCount: 48,
-    description: "Master computer vision techniques and applications, from image preprocessing to deep learning-based object detection, face recognition, and 3D vision.",
+    description: "Master computer vision techniques and applications, from image preprocessing.",
     highlights: [
       'Introduction to Computer Vision and Image Processing',
       'Image Segmentation, Feature Detection, and Matching',
@@ -1067,9 +1067,7 @@ export const courses = [
       'Data Analytics with Power BI',
        'Python for Data Science',
        'Machine Learning with Scikit-learn',
-       'Deep Learning and Neural Networks',
-      'Natural Language Processing and Computer Vision',
-      'Capstone Project and Model Deployment',
+       
     ],
     roadmap: [
       {

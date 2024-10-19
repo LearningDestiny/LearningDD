@@ -1,11 +1,13 @@
 'use client'
+
 import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from '@/components/landing-page'
 
 const AboutUs = () => {
-  return (<>    <Header/>
-
+  return (
+    <>
+      <Header />
       <div className="min-h-screen bg-gray-900 text-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-center mb-8 text-blue-400">About Learning Destiny</h1>
@@ -32,14 +34,14 @@ const AboutUs = () => {
                     We're more than just a learning platform—we're your partners in success. Our approach goes beyond textbooks and theories. We create opportunities to gain hands-on experience, connect you to a network of industry experts, and help you achieve your global education ambitions.
                   </p>
                 </div>
-                <div className="relative h-64 md:h-full">
+                <div className="relative w-full h-64 md:h-full">
                   <Image
                     src="/Untitled design (2).png"
                     alt="Who We Are"
                     layout="fill"
                     objectFit="cover"
                     className="rounded-lg"
-                    />
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -49,14 +51,14 @@ const AboutUs = () => {
                 <CardTitle className="text-2xl font-semibold text-blue-400">What Sets Us Apart?</CardTitle>
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-6">
-                <div className="relative h-64 md:h-full order-2 md:order-1">
+                <div className="relative w-full h-64 md:h-full order-2 md:order-1">
                   <Image
-                    src="Untitled design (3).png"
+                    src="/Untitled design (3).png"
                     alt="What Sets Us Apart"
                     layout="fill"
                     objectFit="cover"
                     className="rounded-lg"
-                    />
+                  />
                 </div>
                 <div className="order-1 md:order-2">
                   <ul className="space-y-2 text-gray-300">
@@ -75,14 +77,14 @@ const AboutUs = () => {
                 <CardTitle className="text-2xl font-semibold text-blue-400">Why Choose Learning Destiny?</CardTitle>
               </CardHeader>
               <CardContent className="grid md:grid-cols-2 gap-6">
-                <div className="relative h-64 md:h-full">
+                <div className="relative w-full h-64 md:h-full">
                   <Image
-                    src="Screenshot 2024-10-10 012541.png"
+                    src="/Screenshot 2024-10-10 012541.png"
                     alt="Why Choose Us"
                     layout="fill"
-                    objectFit="cover"
-                    className="rounded-lg w-4 h-auto mb-"
-                    />
+                    objectFit="contain"
+                    className="rounded-lg"
+                  />
                 </div>
                 <div>
                   <p className="text-gray-300 mb-4">
@@ -103,8 +105,8 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
-                    </>
-    )
-  }
+    </>
+  )
+}
 
 export default AboutUs

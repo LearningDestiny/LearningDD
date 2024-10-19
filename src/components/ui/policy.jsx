@@ -1,18 +1,24 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
+
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 export default function PrivacyPolicy() {
-  const [isClient, setIsClient] = useState(false);
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
-    // This will ensure the code runs only after the component is mounted on the client side
-    setIsClient(true);
-  }, []);{
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return null // or a loading spinner
+  }
+
   return (
     <div className="bg-gray-50 min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <h1 className="text-3xl font-bold mb-8 text-center">Privacy Policy</h1>
+        <p className="mb-4 text-gray-600">Effective Date: 04/10/2024</p>
         
         
         <div className="bg-white shadow-md rounded-lg p-8 mb-8">
@@ -74,7 +80,115 @@ export default function PrivacyPolicy() {
             </ol>
           </section>
 
-          {/* Add remaining sections here, following the same structure */}
+          <section id="consent">
+            <h2 className="text-2xl font-semibold mb-4">3. Consent and Usage</h2>
+            <p className="mb-4">
+              By using our services or submitting your information, you consent to our collection, use,
+              processing, and sharing of your data as described in this policy. You may withdraw your consent
+              at any time by contacting our Data Protection Officer at learningdestiny.manager@gmail.com, but withdrawal
+              of consent may limit your access to certain features and services.
+            </p>
+          </section>
+
+          <section id="disclosure">
+            <h2 className="text-2xl font-semibold mb-4">4. Disclosure of Information</h2>
+            <p className="mb-2">We do not share your information with third parties except under the following circumstances:</p>
+            <ol className="list-decimal list-inside space-y-2 pl-4">
+              <li><strong>With Your Consent:</strong> When you have given explicit permission.</li>
+              <li><strong>Third-Party Service Providers:</strong> We may share your information with vendors, payment gateways, and other service providers for business purposes, such as processing transactions or managing accounts.</li>
+              <li><strong>Legal Compliance:</strong> If required by law, court orders, or regulatory bodies, including RBI and other financial authorities.</li>
+              <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of the company, your information may be transferred as part of the business assets.</li>
+              <li><strong>For Security and Protection:</strong> To protect against fraud, security breaches, and data misuse.</li>
+            </ol>
+          </section>
+
+          <section id="security">
+            <h2 className="text-2xl font-semibold mb-4">5. Data Security</h2>
+            <p className="mb-4">
+              We implement appropriate technical and organizational measures to protect your data from
+              unauthorized access, loss, or misuse. These include encryption, secure servers, regular security
+              audits, and strict access controls.
+            </p>
+            <p className="mb-4">
+              However, while we strive to protect your personal information, no security system is
+              impenetrable, and we cannot guarantee the complete security of your data transmitted over the
+              internet.
+            </p>
+          </section>
+
+          <section id="retention">
+            <h2 className="text-2xl font-semibold mb-4">6. Data Retention</h2>
+            <p className="mb-4">
+              We retain your personal data only for as long as necessary to fulfill the purposes outlined in this
+              policy or as required by law. For financial data, we retain transaction records for at least five
+              years as per RBI's Master Directions on Digital Payment Security and other applicable
+              regulations.
+            </p>
+          </section>
+
+          <section id="rights">
+            <h2 className="text-2xl font-semibold mb-4">7. Your Rights</h2>
+            <p className="mb-2">You have the following rights regarding your data:</p>
+            <ol className="list-decimal list-inside space-y-2 pl-4">
+              <li><strong>Access and Update:</strong> The right to access and update your personal data.</li>
+              <li><strong>Data Portability:</strong> The right to request a copy of your data in a structured, machine-readable format.</li>
+              <li><strong>Deletion and Erasure:</strong> The right to request deletion of your data, subject to legal and regulatory obligations.</li>
+              <li><strong>Restriction of Processing:</strong> The right to restrict the processing of your data if it is inaccurate or used unlawfully.</li>
+              <li><strong>Objection:</strong> The right to object to data processing for direct marketing purposes.</li>
+            </ol>
+          </section>
+
+          <section id="cookies">
+            <h2 className="text-2xl font-semibold mb-4">8. Cookies and Tracking Technologies</h2>
+            <p className="mb-4">
+              We use cookies and similar tracking technologies to analyze user behavior, track interactions,
+              and improve user experiences. You can control cookie preferences through your browser
+              settings. However, disabling cookies may impact your ability to use some features on our
+              website.
+            </p>
+          </section>
+
+          <section id="transfer">
+            <h2 className="text-2xl font-semibold mb-4">9. Cross-Border Data Transfer</h2>
+            <p className="mb-4">
+              We do not transfer your data outside India unless it is required for business operations and is
+              permitted under applicable laws. In such cases, we ensure that adequate safeguards are in
+              place to protect your information.
+            </p>
+          </section>
+
+          <section id="grievance">
+            <h2 className="text-2xl font-semibold mb-4">10. Grievance Redressal Mechanism</h2>
+            <p className="mb-2">If you have any concerns or grievances regarding our privacy practices, please contact our Data Protection Officer:</p>
+            <ul className="list-disc list-inside space-y-2 pl-4">
+              <li><strong>Name:</strong> Chitresh Sharma</li>
+              <li><strong>Designation:</strong> Data Protection Officer/Operations Manager</li>
+              <li><strong>Email:</strong> <a href="mailto:learningdestiny.manager@gmail.com" className="text-blue-600 hover:underline">learningdestiny.manager@gmail.com</a></li>
+              <li><strong>Contact Number:</strong> <a href="tel:+919059898900" className="text-blue-600 hover:underline">+91 9059898900</a></li>
+            </ul>
+            <p className="mt-4">
+              We will respond to your queries and resolve disputes in accordance with Indian legal
+              requirements.
+            </p>
+          </section>
+
+          <section id="amendments">
+            <h2 className="text-2xl font-semibold mb-4">11. Amendments to this Policy</h2>
+            <p className="mb-4">
+              We may update this Privacy Policy from time to time to reflect changes in our practices or for
+              legal compliance. The updated version will be posted on our website with the "Effective Date".
+              Continued use of our services after any changes constitutes acceptance of the updated policy.
+            </p>
+          </section>
+
+          <section id="governing-law">
+            <h2 className="text-2xl font-semibold mb-4">12. Governing Law and Jurisdiction</h2>
+            <p className="mb-4">
+              This Privacy Policy is governed by the laws of India, and any disputes arising out of or in
+              connection with this policy shall be subject to the exclusive jurisdiction of the courts in
+              Hyderabad, Telangana.
+            </p>
+          </section>
 
           <section id="contact">
             <h2 className="text-2xl font-semibold mb-4">13. Contact Information</h2>
@@ -88,4 +202,4 @@ export default function PrivacyPolicy() {
       </div>
     </div>
   )
-}}
+}

@@ -73,7 +73,7 @@ const EnrollPage = () => {
             />
           </label>
           <button
-            className="w-full bg-gray-800 text-white py-3 rounded-lg mt-6 hover:bg-gray-900 transition duration-300 shadow-lg"
+            className="w-full bg-Blue-800 text-white py-3 rounded-lg mt-6 hover:bg-Blue-900 transition duration-300 shadow-lg"
             onClick={handleRegisterClick}
           >
             Register

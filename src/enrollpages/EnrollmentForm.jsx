@@ -7,7 +7,6 @@ import { useTheme } from '../App';
 import PaymentHandlerButton from '@/components/PaymentHandlerButton';
 
 const EnrollmentForm = ({ course, onClose }) => {
-  // const { isDarkMode } = useTheme();
   const [name, setName] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [stream, setStream] = useState('');
@@ -37,20 +36,16 @@ const EnrollmentForm = ({ course, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // // Check if user is authenticated
-    // if (!auth.currentUser) {
-    //   setPopupMessage('You must be logged in to enroll.');
-    //   setShowPopup(true);
-    //   return;
-    // }
-
     // Check if all fields are filled before proceeding
     if (!name || !contactNumber || !stream || !qualification) {
       setPopupMessage('Please fill out all the fields before enrolling.');
       setShowPopup(true);
       return;
     }
-    console.log(name,contactNumber,stream,qualification)
+
+    console.log(name, contactNumber, stream, qualification);
+
+    // // Submit data to Firebase
     // const enrollmentData = {
     //   name,
     //   contactNumber,
@@ -62,13 +57,8 @@ const EnrollmentForm = ({ course, onClose }) => {
     // };
 
     // try {
-    //   // Store data in Firebase Firestore
     //   await addDoc(collection(firestore, 'enrollments'), enrollmentData);
-      
-    //   // Show success message
     //   setIsSubmitted(true);
-
-    //   // Optional: Close the form after a delay (2 seconds)
     //   setTimeout(() => {
     //     onClose();
     //   }, 2000);
@@ -78,17 +68,15 @@ const EnrollmentForm = ({ course, onClose }) => {
     //   setShowPopup(true);
     // }
 
-
   };
 
   let priceString = course.price;
-let priceFloat = parseFloat(priceString.replace(/[^0-9.-]+/g, '').replace(',', ''));
-console.log(priceFloat); // Output: 6999
-
+  let priceFloat = parseFloat(priceString.replace(/[^0-9.-]+/g, '').replace(',', ''));
+  console.log(priceFloat); // Output: parsed price
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className={`bg-gray-900 text-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md`}>
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+      <div className={`bg-white p-6 rounded-lg shadow-lg w-full max-w-md`}>
         {isSubmitted ? (
           <div className="flex flex-col items-center">
             <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 text-4xl mb-4" />
@@ -107,7 +95,7 @@ console.log(priceFloat); // Output: 6999
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg bg-black border-gray-300`}
+                  className="w-full px-3 py-2 border rounded-lg border-gray-300"
                   required
                 />
               </div>
@@ -120,7 +108,7 @@ console.log(priceFloat); // Output: 6999
                   id="contactNumber"
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg bg-black border-gray-300`}
+                  className="w-full px-3 py-2 border rounded-lg border-gray-300"
                   required
                 />
               </div>
@@ -133,7 +121,7 @@ console.log(priceFloat); // Output: 6999
                   id="stream"
                   value={stream}
                   onChange={(e) => setStream(e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg bg-black border-gray-300`}
+                  className="w-full px-3 py-2 border rounded-lg border-gray-300"
                   required
                 />
               </div>
@@ -146,29 +134,22 @@ console.log(priceFloat); // Output: 6999
                   id="qualification"
                   value={qualification}
                   onChange={(e) => setQualification(e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg bg-black border-gray-300`}
+                  className="w-full px-3 py-2 border rounded-lg border-gray-300"
                   required
                 />
               </div>
-              
-              {/* <button
-                type="submit"
-                className={`py-3 px-6 bg-gray-800 hover:bg-gray-900 text-white rounded-lg transition duration-300`}
-              >
-                Enroll Now
-              </button> */}
-              {console.log(parseFloat(course.price))}
-                 <PaymentHandlerButton
-                        finalAmt={priceFloat}
-                        fullName={name}
-                        email={contactNumber}
-                        contact={contactNumber}
-                      />
+
+              <PaymentHandlerButton
+                finalAmt={priceFloat}
+                fullName={name}
+                email={contactNumber}
+                contact={contactNumber}
+              />
             </form>
 
             <button
               onClick={onClose}
-              className={`mt-4 text-gray-600 hover:text-gray-900`}
+              className="mt-4 text-blue-600 hover:text-red-900"
             >
               Close
             </button>
@@ -176,7 +157,6 @@ console.log(priceFloat); // Output: 6999
         )}
       </div>
 
-      {/* Render the Popup component */}
       {showPopup && (
         <Popup
           message={popupMessage}
@@ -187,4 +167,4 @@ console.log(priceFloat); // Output: 6999
   );
 };
 
-export default EnrollmentForm; 
+export default EnrollmentForm;

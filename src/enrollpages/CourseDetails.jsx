@@ -47,7 +47,7 @@ const CourseDetails = ({ params }) => {
             <p className="text-lg text-gray-300"><strong>Lectures:</strong> {course?.lectureCount}</p>
             <p className="font-bold mt-6 text-2xl md:text-3xl text-indigo-400">{course?.price}</p>
             <button
-              className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105"
+             className="mt-4 py-2 px-4 w-18 font-semibold rounded bg-blue-600 text-white hover:bg-green-800 transition duration-300"
               onClick={handleEnrollClick}
             >
               Enroll Now

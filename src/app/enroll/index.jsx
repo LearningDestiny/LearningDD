@@ -7,7 +7,7 @@ const EnrollPage = () => {
   const [isOpen, setIsOpen] = useState(true);
   const course = {
     title: "Your Course Title",
-    price: "$100", // Example price; replace with actual course price
+    price: "Rs100", // Example price; replace with actual course price
   };
 
   return (

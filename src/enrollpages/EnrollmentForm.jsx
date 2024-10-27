@@ -1,19 +1,19 @@
+// EnrollmentForm.js
 'use client'
 
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import PaymentHandlerButton from '@/components/PaymentHandlerButton'
- // Ensure the path is correct
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import PaymentHandlerButton from '@/components/PaymentHandlerButton';
 
 const EnrollmentForm = ({ course, onClose }) => {
-  const [name, setName] = useState('')
-  const [contactNumber, setContactNumber] = useState('')
-  const [stream, setStream] = useState('')
-  const [qualification, setQualification] = useState('')
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [showPopup, setShowPopup] = useState(false)
-  const [popupMessage, setPopupMessage] = useState('')
+  const [name, setName] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [stream, setStream] = useState('');
+  const [qualification, setQualification] = useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
 
   const Popup = ({ message, onClose }) => {
     return (
@@ -29,21 +29,26 @@ const EnrollmentForm = ({ course, onClose }) => {
           </button>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!name || !contactNumber || !stream || !qualification) {
-      setPopupMessage('Please fill out all the fields before enrolling.')
-      setShowPopup(true)
-      return
+      setPopupMessage('Please fill out all the fields before enrolling.');
+      setShowPopup(true);
+      return;
     }
 
     const formData = { name, contactNumber, stream, qualification };
     try {
-      const result = await saveFormData(formData);
+      const res = await fetch('/api/googleSheets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const result = await res.json();
       if (result.success) {
         setIsSubmitted(true);
       } else {
@@ -54,9 +59,9 @@ const EnrollmentForm = ({ course, onClose }) => {
       setPopupMessage('Error saving data. Please try again.');
       setShowPopup(true);
     }
-  }
+  };
 
-  const priceFloat = parseFloat(course.price.replace(/[^0-9.-]+/g, '').replace(',', ''))
+  const priceFloat = parseFloat(course.price.replace(/[^0-9.-]+/g, '').replace(',', ''));
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -99,7 +104,7 @@ const EnrollmentForm = ({ course, onClose }) => {
         <Popup message={popupMessage} onClose={() => setShowPopup(false)} />
       )}
     </div>
-  )
-}
+  );
+};
 
 export default EnrollmentForm;

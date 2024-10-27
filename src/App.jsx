@@ -8,14 +8,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import CourseDetails from './enrollpages/CourseDetails';
 import ScrollToTop from './components/ScrollToTop';
 import Events from './components/ui/Events';
-import policy from './components/ui/policy';
+import Policy from './components/ui/Policy'; // Privacy Policy
 import Terms from './components/ui/Terms';
-import shipping from './components/ui/shipping';
-
-
-import Inten from './components/ui/Inten';
-
-
+import Shipping from './components/ui/Shipping'; // Shipping Policy
+import Inten from './components/ui/Inten'; // Internships
+import EventDetail from './enrollpages/EventsDetails';
+import Work from './components/ui/Work'; // Workshops
+import Login from './components/Login'; // Login page
+import Signup from './components/Signup'; // Signup page
+import InternshipApplication from './components/ui/InternshipApplication'; // Corrected single import
 
 // Create a context for the theme
 const ThemeContext = createContext();
@@ -37,16 +38,20 @@ const App = () => {
           <Navbar />
           <ScrollToTop />
           <Routes>
-            
-             {/* Fixed PrivacyPolicy route */}
-            <Route path="/events" element={<Events />} />  {/* Events route added */}
-            <Route path="/work" element={<Work />} />  {/* Workshops route added */}
-            <Route path="/inten" element={<Inten />} />  {/* Internships route added */}
-            <Route path="/enroll/:courseId" element={<CourseDetails />} />
-            <Route path="/cour/:courseId" element={<CourseDetails />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/shipping" element={<shipping />} />
+            {/* Define all necessary routes */}
+            <Route path="/policy" element={<Policy />} /> {/* Privacy Policy */}
+            <Route path="/terms" element={<Terms />} /> {/* Terms of Service */}
+            <Route path="/shipping" element={<Shipping />} /> {/* Shipping Info */}
+            <Route path="/events" element={<Events />} /> {/* All Events */}
+            <Route path="/events/:eventId" element={<EventDetail />} /> {/* Event Detail with dynamic eventId */}
+            <Route path="/work" element={<Work />} /> {/* Workshops */}
+            <Route path="/inten" element={<Inten />} /> {/* Internships */}
+            <Route path="/enroll/:courseId" element={<CourseDetails />} /> {/* Course Enrollment */}
+            {/* Consider keeping only one of the following two routes */}
+            <Route path="/cour/:courseId" element={<CourseDetails />} /> {/* Alternative route for Course Details */}
+            <Route path="/login" element={<Login />} /> {/* Login Page */}
+            <Route path="/signup" element={<Signup />} /> {/* Signup Page */}
+            <Route path="/internship-application" element={<InternshipApplication />} /> {/* Internship Application */}
           </Routes>
           <ToastContainer position="top-right" autoClose={3000} />
         </div>

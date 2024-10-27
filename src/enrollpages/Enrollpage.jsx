@@ -41,7 +41,7 @@ const EnrollPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 text-gray-900">
+    <div className="flex flex-col min-h-screen bg--100 text-gray-900">
       <div className="container mx-auto py-12 px-6 flex-grow">
         <h2 className="text-4xl font-bold mb-8 text-center">{`Enroll in ${course.title}`}</h2>
         <div className="max-w-md mx-auto">

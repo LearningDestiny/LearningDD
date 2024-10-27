@@ -10,13 +10,7 @@ const CourseDetails = ({ params }) => {
   const [isFormVisible, setFormVisible] = useState(false);
   const router = useRouter();
 
-  if (!course) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100 text-gray-900">
-        <h1 className="text-4xl font-bold">Course not found</h1>
-      </div>
-    );
-  }
+
 
   const handleEnrollClick = () => {
     setFormVisible(true);
@@ -36,10 +30,10 @@ const CourseDetails = ({ params }) => {
           src={course?.imageUrl}
           alt={course?.title}
           className="rounded-lg shadow-lg object-cover"
-          style={{ maxWidth: '80%', maxHeight: '350px' }}
+          style={{ maxWidth: '40%', maxHeight: '350px' }}
         />
       </div>
-          <div className="md:ml-8 flex-1">
+          <div className="md:ml-8 flex-">
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-white">{course?.title}</h2>
             <p className="mb-4 text-base md:text-lg text-gray-300">{course?.description}</p>
             <p className="text-lg text-gray-300"><strong>Instructor:</strong> {course?.instructor}</p>
@@ -47,7 +41,7 @@ const CourseDetails = ({ params }) => {
             <p className="text-lg text-gray-300"><strong>Lectures:</strong> {course?.lectureCount}</p>
             <p className="font-bold mt-6 text-2xl md:text-3xl text-indigo-400">{course?.price}</p>
             <button
-             className="mt-4 py-2 px-4 w-18 font-semibold rounded bg-blue-600 text-white hover:bg-green-800 transition duration-300"
+              className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105"
               onClick={handleEnrollClick}
             >
               Enroll Now

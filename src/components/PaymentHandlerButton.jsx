@@ -10,10 +10,8 @@ function PaymentHandlerButton({
   fullName,
   email,
   contact,
-
 }) {
-  const [orderId, setOrderId] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -21,7 +19,6 @@ function PaymentHandlerButton({
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
-    script.defer = true;
     document.body.appendChild(script);
   };
 
@@ -29,39 +26,68 @@ function PaymentHandlerButton({
     loadScript();
   }, []);
 
-  const processPayment = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    setLoading(true); // Set loading state to true
+  const saveDataToGoogleSheets = async () => {
     try {
-      // Step 1: Create Order
+      const res = await fetch("/api/googleSheets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: fullName, email, contact }),
+      });
+      const result = await res.json();
+
+      if (result.success) {
+        toast({
+          title: "Data Saved",
+          description: "Your data has been successfully saved to Google Sheets.",
+        });
+      } else {
+        toast({
+          title: "Data Save Failed",
+          description: result.message || "An error occurred while saving data.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error saving data to Google Sheets:", error);
+      toast({
+        title: "Network Error",
+        description: "A network error occurred while trying to save data.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const processPayment = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: finalAmt, currency: "INR" }),
       });
       const data = await res.json();
-      setOrderId(data.orderId);
 
-      // Step 2: Initiate Razorpay Payment
       window.Razorpay.open({
         key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: finalAmt,
         currency: "INR",
-        name: "Your Company Name",
-        description: "Test Transaction",
+        name: "Learning Destiny",
+        description: "Final Amount",
         order_id: data.orderId,
         handler: async function (response) {
-          // Step 3: Verify Payment
           const verificationData = await verifyPayment(
             response.razorpay_order_id,
             response.razorpay_payment_id,
             response.razorpay_signature
           );
+
           if (verificationData.success) {
             toast({
               title: "Payment Successful",
               description: "Your payment has been processed successfully.",
             });
+            await saveDataToGoogleSheets(); // Call to save data after successful payment
           } else {
             toast({
               title: "Payment Verification Failed",
@@ -87,29 +113,21 @@ function PaymentHandlerButton({
         variant: "destructive",
       });
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
-  const verifyPayment = async (
-    orderCreationId,
-    razorpayPaymentId,
-    razorpaySignature
-  ) => {
+  const verifyPayment = async (orderCreationId, razorpayPaymentId, razorpaySignature) => {
     try {
       const res = await fetch("/api/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderCreationId,
-          razorpayPaymentId,
-          razorpaySignature,
-        }),
+        body: JSON.stringify({ orderCreationId, razorpayPaymentId, razorpaySignature }),
       });
-      return await res.json(); // Return the verification result
+      return await res.json();
     } catch (error) {
       console.error("Verification Error:", error);
-      return { success: false }; // Return failure if there's an error
+      return { success: false };
     }
   };
 
@@ -121,8 +139,7 @@ function PaymentHandlerButton({
       disabled={loading}
     >
       {loading ? "Processing..." : "Pay Now"}
-      {loading && <span className="loader" />}{" "}
-      {/* Add a loader icon or spinner here */}
+      {loading && <span className="loader" />}
     </Button>
   );
 }

@@ -1,11 +1,10 @@
-
 'use client';
-import React, { useState, Suspense } from 'react';
-import { useRouter } from 'next/navigation';
-import { FaPlayCircle } from 'react-icons/fa';
-import { Header } from '@/components/landing-page'; // Importing the Header component
-import PaymentHandlerButton from '@/components/PaymentHandlerButton'; // Importing the payment button
-import { useSearchParams } from 'next/navigation'; // Using next/navigation
+
+import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FaCalendarAlt } from 'react-icons/fa';
+import { Header } from '@/components/landing-page';
+import PaymentHandlerButton from '@/components/PaymentHandlerButton';
 
 
 const workshops = [
@@ -14,67 +13,46 @@ const workshops = [
     title: 'Full Stack Web Development Workshop',
     instructor: 'Jane Doe',
     price: '999 Rs',
-    imageUrl: '/WebDevPoster.png', // Replace with your image URL
+    imageUrl: '/WebDevPoster.png',
     description: 'A workshop to enhance your Website Development Skills.',
     lastUpdated: 'Last updated: September 2024',
     duration: '3 hours',
-    lectureCount: 5,
-    highlights: ['Interactive sessions', 'Expert feedback', 'Networking opportunities'],
   },
   {
     id: 2,
     title: 'Data Analysis with Python Workshop',
     instructor: 'John Smith',
     price: '999 Rs',
-    imageUrl: 'DataAnalysisPoster.png', // Replace with your image URL
+    imageUrl: '/DataAnalysisPoster.png',
     description: 'Learn the fundamentals of Data Analysis with Python in this hands-on workshop.',
     lastUpdated: 'Last updated: August 2024',
     duration: '4 hours',
-    lectureCount: 6,
-    highlights: ['Practical exercises', 'Portfolio building', 'Q&A session'],
   },
   {
     id: 3,
     title: 'Digital Marketing Bootcamp',
     instructor: 'Emily Johnson',
     price: '999 Rs',
-    imageUrl: 'https://via.placeholder.com/200', // Replace with your image URL
+    imageUrl: '/placeholder.svg?height=200&width=200',
     description: 'An intensive workshop covering the latest digital marketing strategies.',
     lastUpdated: 'Last updated: July 2024',
     duration: '5 hours',
-    lectureCount: 8,
-    highlights: ['Hands-on projects', 'Real-world case studies', 'Certification'],
   },
 ];
 
-// Component to handle the workshop filtering logic
-const FilteredWorkshops = ({ searchQuery, onHover, onLeave, hoveredWorkshop }) => {
-  // Filter workshops based on the search query
-  const filteredWorkshops = workshops.filter(
-    (workshop) =>
-      workshop.title.toLowerCase().includes(searchQuery) ||
-      workshop.description.toLowerCase().includes(searchQuery)
-  );
-
-  const priceValue = (price) => {
-    if (price === 'Free') {
-      return 0;
-    } else {
-      const priceFloat = parseFloat(price.replace(/[^0-9.-]+/g, '').replace(',', ''));
-      return priceFloat;
-    }
-  };
+const WorkshopCard = ({ workshop, isHovered, onHover, onLeave }) => {
+  const router = useRouter();
 
   const cardStyles = {
     position: 'relative',
     width: '100%',
-    paddingTop: '75%', // Aspect ratio for square
+    paddingTop: '70%',
     borderRadius: '8px',
     overflow: 'hidden',
     transition: 'transform 0.3s ease-in-out',
     cursor: 'pointer',
-    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)', // Light shadow for card
-    border: '2px solid #3b82f6', // Light blue border
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+    border: '2px solid #3b82f6',
   };
 
   const imageStyles = {
@@ -90,88 +68,86 @@ const FilteredWorkshops = ({ searchQuery, onHover, onLeave, hoveredWorkshop }) =
     position: 'absolute',
     inset: 0,
     padding: '16px',
-    backgroundColor: '#fff', // White background for overlay
+    backgroundColor: '#ffffff',
     opacity: 1,
     zIndex: 10,
-    borderRadius: '8px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  };
-
-  const hiddenOverlay = {
-    opacity: 0,
     transition: 'opacity 0.3s ease-in-out',
-    zIndex: -1,
+    borderRadius: '8px',
   };
 
-  if (filteredWorkshops.length === 0) {
-    return <p className="text-center text-gray-500">No workshops found matching your search.</p>;
-  }
+  const priceValue = parseFloat(workshop.price.replace(/[^0-9.-]+/g, ''));
+
+  const handleMoreInfo = () => {
+    router.push(`/workshops/${workshop.id}`);
+  };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-      {filteredWorkshops.map((workshop) => (
-        <div
-          key={workshop.id}
-          style={cardStyles}
-          onMouseEnter={() => onHover(workshop.id)}
-          onMouseLeave={() => onLeave(null)}
-        >
-          <img src={workshop.imageUrl} alt={workshop.title} style={imageStyles} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '16px', background: 'rgba(0, 0, 0, 0.8)', width: '100%' }}>
-            <h4 className="font-semibold text-sm text-white">{workshop.title}</h4>
-            <p className="text-xs text-gray-300">{workshop.instructor}</p>
-            <p className="font-bold text-sm text-white mt-1">{workshop.price}</p>
-          </div>
-          <div style={hoveredWorkshop === workshop.id ? hoveredCardOverlay : hiddenOverlay}>
-            <h4 className="font-semibold text-sm">{workshop.title}</h4>
-            <p className="text-xs mt-1">{workshop.lastUpdated}</p>
-            <p className="text-xs mt-2">
-              {workshop.duration} total hours · {workshop.lectureCount} lectures · All Levels
-            </p>
-            <p className="text-xs mt-2">{workshop.description}</p>
-            <ul className="text-xs mt-2">
-              {workshop.highlights.map((highlight, index) => (
-                <li key={index} className="flex items-center mt-0">
-                  <FaPlayCircle className="mr-1 text-blue-500" /> {highlight}
-                </li>
-              ))}
-            </ul>
-            {/* Payment Button Integration */}
-            <PaymentHandlerButton finalAmt={priceValue(workshop.price)} />
-          </div>
+    <div
+      style={cardStyles}
+      onMouseEnter={() => onHover(workshop.id)}
+      onMouseLeave={() => onLeave(null)}
+      className="transform transition duration-300 hover:scale-105"
+    >
+      <img src={workshop.imageUrl} alt={workshop.title} style={imageStyles} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '16px', background: 'rgba(0, 0, 0, 0.8)', width: '100%' }}>
+        <h4 className="font-semibold text-sm text-white">{workshop.title}</h4>
+        <p className="text-xs text-gray-300">{workshop.instructor}</p>
+        <p className="font-bold text-sm text-white mt-1">{workshop.price}</p>
+      </div>
+      {isHovered && (
+        <div style={hoveredCardOverlay}>
+          <h4 className="font-semibold text-sm">{workshop.title}</h4>
+          <p className="text-xs mt-1">{workshop.lastUpdated}</p>
+
+          <PaymentHandlerButton finalAmt={priceValue} />
+          <button
+            onClick={handleMoreInfo}
+            className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold py-2 px-4 rounded"
+          >
+            More Info
+          </button>
         </div>
-      ))}
+      )}
     </div>
   );
 };
 
 const Workshop = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search')?.toLowerCase() || '';
   const [hoveredWorkshop, setHoveredWorkshop] = useState(null);
 
+  const filteredWorkshops = workshops.filter(workshop =>
+    workshop.title.toLowerCase().includes(searchQuery) ||
+    workshop.description.toLowerCase().includes(searchQuery)
+  );
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900">
-      <Header /> {/* Adding the Header component */}
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100">
+      <Header />
 
-      <div className="container mx-auto py-8 px-4 md:px-8" style={{ backgroundColor: 'transparent', color: '#000', marginTop: '2rem' }}>
-        {/* All Workshops Section */}
-        <section>
-          <h2 className="text-4xl font-bold mb-8 text-center text-white">All Workshops</h2>
+      {/* All Workshops Section */}
+      <section>
+        <h2 className="text-4xl font-bold mb-8 text-center text-white">All Workshops</h2>
+        {filteredWorkshops.length > 0 ? (
+          <div className="md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {filteredWorkshops.map(workshop => (
+              <WorkshopCard
+                key={workshop.id}
+                workshop={workshop}
+                isHovered={hoveredWorkshop === workshop.id}
+                onHover={setHoveredWorkshop}
+                onLeave={() => setHoveredWorkshop(null)}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500">No workshops found matching your search.</p>
+        )}
+      </section>
 
-          <Suspense fallback={<div>Loading workshops...</div>}>
-            <FilteredWorkshops
-              searchQuery={searchQuery}
-              onHover={setHoveredWorkshop}
-              onLeave={setHoveredWorkshop}
-              hoveredWorkshop={hoveredWorkshop}
-            />
-          </Suspense>
-        </section>
-      </div>
+      {/* Mobile View for Workshops */}
+   
     </div>
   );
 };

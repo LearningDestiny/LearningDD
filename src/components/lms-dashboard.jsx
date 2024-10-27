@@ -139,7 +139,7 @@ export function LmsDashboard() {
           <UserButton />
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* {courses.map((course) => (
+          { {courses.map((course) => (
             <Card
               key={course.id}
               className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 bg-gray-800 border-gray-700"
@@ -266,7 +266,7 @@ export function LmsDashboard() {
                 </HoverCard>
               </CardFooter>
             </Card>
-          ))} */}
+          ))} }
         </div>
       </main>
     </div>

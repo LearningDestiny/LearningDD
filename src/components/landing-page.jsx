@@ -230,7 +230,7 @@ function HeroSection() {
           <div className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto">
             <div className="mb-8 md:mb-0 md:mr-8 w-full md:w-auto flex justify-center">
               <Image
-                src="ll.png"
+                src="TransparentLogo.png"
                 alt="Learning Destiny"
                 width={170}
                 height={300}

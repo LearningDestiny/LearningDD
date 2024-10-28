@@ -1,7 +1,8 @@
-{ "compilerOptions": {
-  "baseUrl": ".",
-  "paths": {
-    "@/enrollpages/*": ["src/enrollpages/*"]
+{"compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/enrollpages/*": ["enrollpages/*"]
     }
   },
   "headers": [

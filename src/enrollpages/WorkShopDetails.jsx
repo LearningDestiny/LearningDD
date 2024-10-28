@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
 import EnrollmentForm from './EnrollmentForm';
-import { workshops } from '../Data'; // Make sure this path is correct
+import { workshops } from '../data'; // Make sure this path is correct
 
 const WorkshopDetails = ({ id }) => {
   const [workshop, setWorkshop] = useState(null);

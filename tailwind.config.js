@@ -58,8 +58,4 @@ module.exports = {
   	}
   },
   plugins: [require("tailwindcss-animate")],
-  purge: {
-    content: ['./pages/**/*.js', './components/**/*.js'], // Ensure all paths are included
-    safelist: ['fixed', 'inset-0', 'flex', 'items-center', 'justify-center', 'bg-gray-800', 'bg-opacity-50', 'z-50', 'rounded-lg', 'shadow-lg', 'max-w-md'],
-  },
 };

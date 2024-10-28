@@ -1,4 +1,7 @@
+
 import WorkshopDetails from '@/enrollpages/WorkshopDetails'; // Ensure the path is correct
+
+ // Ensure the path is correct
 import React from 'react';
 
 const Page = ({ params }) => {

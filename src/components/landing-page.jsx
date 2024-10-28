@@ -386,7 +386,7 @@ function PopularCourses() {
         </div>
       </div>
       <div className="text-center mt-8">
-        <Link href="/courses" passHref>
+        <Link href="/Courses" passHref>
           <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md text-lg font-semibold transition-colors duration-300">
             See More Courses
           </button>
@@ -466,7 +466,7 @@ function Internship() {
         </div>
       </div>
       <div className="text-center mt-8">
-        <Link href="/internships" passHref>
+        <Link href="/inten" passHref>
           <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md text-lg font-semibold transition-colors duration-300">
             See More Internships
           </button>
@@ -556,7 +556,7 @@ function Workshop() {
           </div>
         </div>
         <div className="text-center mt-8">
-          <Link href="/workshops" passHref>
+          <Link href="/workshop" passHref>
             <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md text-lg transition-colors duration-300">
               See More Workshops
             </button>

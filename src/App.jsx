@@ -13,6 +13,7 @@ import Terms from './components/ui/Terms';
 import Shipping from './components/ui/Shipping'; // Shipping Policy
 import Inten from './components/ui/Inten'; // Internships
 import EventDetail from './enrollpages/EventsDetails';
+import WorkshopDetails from './enrollpages/WorkShopDetails';
 import Work from './components/ui/Work'; // Workshops
 import Login from './components/Login'; // Login page
 import Signup from './components/Signup'; // Signup page
@@ -43,7 +44,8 @@ const App = () => {
             <Route path="/terms" element={<Terms />} /> {/* Terms of Service */}
             <Route path="/shipping" element={<Shipping />} /> {/* Shipping Info */}
             <Route path="/events" element={<Events />} /> {/* All Events */}
-            <Route path="/events/:eventId" element={<EventDetail />} /> {/* Event Detail with dynamic eventId */}
+            <Route path="/events/:eventId" element={<EventDetail />} /> 
+            <Route path="/workshop/:workshopId" element={<WorkshopDetails />} /> {/* Event Detail with dynamic eventId */}
             <Route path="/work" element={<Work />} /> {/* Workshops */}
             <Route path="/inten" element={<Inten />} /> {/* Internships */}
             <Route path="/enroll/:courseId" element={<CourseDetails />} /> {/* Course Enrollment */}

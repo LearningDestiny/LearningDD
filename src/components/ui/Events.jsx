@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import { FaCalendarAlt } from "react-icons/fa"
 import { useRouter, useSearchParams } from "next/navigation"
 import PaymentHandlerButton from "@/components/PaymentHandlerButton"
-import { events } from "@/data" 
+import { events } from "@/Data" 
 import EventDetails from "@/enrollpages/EventsDetails"
 
 const Events = () => {

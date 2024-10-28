@@ -1,5 +1,4 @@
-// src/Data/data.jsx4
-'use client';
+
 export const courses = [
   {
     courseId:1,

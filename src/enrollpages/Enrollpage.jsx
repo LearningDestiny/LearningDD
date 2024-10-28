@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 // import { useParams, useNavigate } from 'react-router-dom';
-import { courses } from '../Data';
+import { courses } from '../data';
 import { getDatabase, ref, set } from 'firebase/database';
 import Footer from '../components/Footer';
 import { useRouter, useSearchParams } from 'next/navigation';

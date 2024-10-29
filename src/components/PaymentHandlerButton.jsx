@@ -3,7 +3,7 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "../../src/hooks/use-toast";
 
 function PaymentHandlerButton({
   finalAmt,

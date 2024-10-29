@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Header } from '@/components/landing-page'
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
+import { Header } from '../../components/landing-page'
 
 const AboutUs = () => {
   return (

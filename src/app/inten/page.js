@@ -2,11 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Header } from '@/components/landing-page'
-import PaymentHandlerButton from '@/components/PaymentHandlerButton'
+import { Header } from '../../components/landing-page'
 import Link from 'next/link'
 import { FaPlayCircle, FaCalendarAlt, FaInfoCircle } from 'react-icons/fa'
-import InternshipApplication from '@/components/ui/InternshipApplication'
 
 const internships = [
   {

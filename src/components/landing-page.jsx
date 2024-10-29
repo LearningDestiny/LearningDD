@@ -20,7 +20,7 @@ import { FaUser, FaEnvelope, FaPhone, FaFileAlt, FaPaperPlane } from 'react-icon
 
 const internships = [
   {
-    id: 1,
+    id: 1,  
     title: 'Software Internship',
     company: 'Learning Destiny',
     stipend: '500Rs/month',

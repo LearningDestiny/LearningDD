@@ -13,7 +13,7 @@ import { Menu, X, Search } from "lucide-react"
 import { useRouter } from 'next/navigation'
 import { courses, events } from '../../src/Data'
 import PaymentHandlerButton from '@/components/PaymentHandlerButton'
-import InternshipApplication from '@/app/InternshipApplication/page'
+
 import { FaUser, FaEnvelope, FaPhone, FaFileAlt, FaPaperPlane } from 'react-icons/fa'
 
 //import EnrollmentForm from '@/enrollpages'
@@ -446,7 +446,7 @@ function Internship() {
                       </ul>
                     </div>
                     <div className="flex flex-col space-y-2 mt-4">
-                      <Link href={`/internship-application/${internship.id}`} passHref>
+                    <Link href={`/InternshipApplication`} passHref>
                         <button className="bg-blue-500 hover:bg-blue-600 text-white w-full py-2 rounded-md text-sm font-semibold transition-colors duration-300">
                           Apply Now
                         </button>

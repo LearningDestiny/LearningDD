@@ -2,49 +2,18 @@
 
 import { useState } from "react";
 import {
-  Book,
   ChevronLeft,
   ChevronRight,
   GraduationCap,
   Home,
   Menu,
   X,
-  Clock,
-  User,
-  DollarSign,
-  BarChart,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "../../src/components/ui/button";
 import { cn } from "../lib/utils";
 import { UserButton } from "@clerk/nextjs";
-import PaymentHandlerButton from "./PaymentHandlerButton";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 
 
 export function LmsDashboard() {

@@ -1,4 +1,4 @@
-import CourseDetails from '@/enrollpages/CourseDetails'
+import CourseDetails from '../../../enrollpages/CourseDetails'
 // import EnrollPage from '@/enrollpages/Enrollpage'
 import React from 'react'
 

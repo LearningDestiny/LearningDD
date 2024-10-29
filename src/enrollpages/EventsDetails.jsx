@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import { events } from '../Data'; // Path to your events data file
+import { events } from '../../src/Data'; // Path to your events data file
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaStar } from 'react-icons/fa';
 
 

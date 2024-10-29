@@ -1,5 +1,5 @@
 'use client'
-import { LmsDashboard } from '@/components/lms-dashboard';
+import { LmsDashboard } from '../../components/lms-dashboard';
 import { SignedIn, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 

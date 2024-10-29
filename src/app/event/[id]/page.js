@@ -1,5 +1,5 @@
 // pages/event/[id].js
-import EventDetails from '@/enrollpages/EventsDetails';
+import EventDetails from '../../../enrollpages/EventsDetails';
 import React from 'react';
 
 const Page = ({ params }) => {

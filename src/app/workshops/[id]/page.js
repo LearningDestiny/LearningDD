@@ -1,5 +1,5 @@
 
-import WorkshopDetails from '@/enrollpages/WorkshopDetails'; // Ensure the path is correct
+import WorkshopDetails from '../../../enrollpages/WorkShopDetails'; // Ensure the path is correct
 
  // Ensure the path is correct
 import React from 'react';
@@ -7,7 +7,7 @@ import React from 'react';
 const Page = ({ params }) => {
   console.log(params, "params"); // Debugging log
 
-  // Extract the id from params
+  // Extract the id from paramsgi
   const { id } = params;
 
   if (!id) {

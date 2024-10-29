@@ -45,7 +45,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { courses } from "@/Data";
+
 
 export function LmsDashboard() {
   const [selectedCourse, setSelectedCourse] = useState(null);

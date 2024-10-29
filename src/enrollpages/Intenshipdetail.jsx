@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { FaMapMarkerAlt, FaCalendarAlt, FaMoneyBillWave } from 'react-icons/fa';
-import { internships } from '../Data';
+import { internships } from '../../src/Data';
 import Link from 'next/link'
 import { FaPlayCircle,  FaInfoCircle } from 'react-icons/fa'
 

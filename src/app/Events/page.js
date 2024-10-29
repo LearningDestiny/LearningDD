@@ -2,7 +2,7 @@
 import Events from '@/components/ui/Events'
 import React from 'react'
 import { Header } from '@/components/landing-page'
-import EventDetail from '@/enrollpages/EventsDetails'
+import EventDetail from '../../enrollpages/EventsDetails'
 
 
 

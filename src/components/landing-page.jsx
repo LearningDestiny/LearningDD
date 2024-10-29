@@ -11,7 +11,7 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 import { FaPlayCircle, FaCalendarAlt } from 'react-icons/fa'
 import { Menu, X, Search } from "lucide-react"
 import { useRouter } from 'next/navigation'
-import { courses, events } from '@/Data'
+import { courses, events } from '../../src/Data'
 import PaymentHandlerButton from '@/components/PaymentHandlerButton'
 import InternshipApplication from '@/app/InternshipApplication/page'
 import { FaUser, FaEnvelope, FaPhone, FaFileAlt, FaPaperPlane } from 'react-icons/fa'

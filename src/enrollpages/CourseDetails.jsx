@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { courses } from '../Data';
+import { courses } from '../../src/Data';
 import EnrollmentForm from './EnrollmentForm';
 import { useRouter } from 'next/navigation';
 

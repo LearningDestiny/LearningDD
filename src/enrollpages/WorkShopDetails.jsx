@@ -1,9 +1,8 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
-import EnrollmentForm from './EnrollmentForm';
-import { workshops } from '../data'; // Make sure this path is correct
+import EnrollmentForm from '../enrollpages/EnrollmentForm';
+import { workshops } from '../../src/Data'; // Make sure this path is correct
 
 const WorkshopDetails = ({ id }) => {
   const [workshop, setWorkshop] = useState(null);

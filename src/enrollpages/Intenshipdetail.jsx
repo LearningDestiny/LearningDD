@@ -30,7 +30,7 @@ const InternshipDetails = ({ id }) => {
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 via-indigo-900 to-gray-900 text-gray-100">
       <div className="container mx-auto py-12 px-6 flex-grow">
         {/* Internship Header */}
-        <div className="flex flex-col md:flex-row items-start justify-center md:justify-start text-center md:text-left border-b border-gray-700 pb-8">
+        <div className="flex flex-col items-start justify-center md:justify-start text-center md:text-left border-b border-gray-700 pb-8">
           <div className="w-full md:w-1/3 mb-8 md:mb-0 flex justify-center">
             <img
               src={internship.imageUrl}

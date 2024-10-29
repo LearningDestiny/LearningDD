@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation"
 import PaymentHandlerButton from "@/components/PaymentHandlerButton"
 import { events } from "../../Data" 
 
-
 const Events = () => {
   const location = useSearchParams()
   const router = useRouter()
@@ -28,6 +27,7 @@ const Events = () => {
     cursor: "pointer",
     boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
     border: "2px solid #3b82f6",
+    margin: "8px" // Add some margin between cards
   }
 
   const imageStyles = {
@@ -43,11 +43,16 @@ const Events = () => {
     position: "absolute",
     inset: 0,
     padding: "16px",
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    backgroundColor: "rgba(255, 255, 255, 0.95)", // Slightly more opaque for better visibility
     opacity: 1,
     zIndex: 10,
     transition: "opacity 0.3s ease-in-out",
     borderRadius: "8px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
   }
 
   const price = (price) => {
@@ -79,14 +84,15 @@ const Events = () => {
           position: "absolute",
           bottom: 0,
           left: 0,
-          padding: "16px",
+          padding: "8px",
           background: "rgba(0, 0, 0, 0.8)",
           width: "100%",
+          color: "white",
         }}
       >
-        <h4 className="font-semibold text-sm text-white">{event.title}</h4>
+        <h4 className="font-semibold text-sm">{event.title}</h4>
         <p className="text-xs text-gray-300">{event.date}</p>
-        <p className="font-bold text-sm text-white mt-1">{event.price}</p>
+        <p className="font-bold text-sm mt-1">{event.price}</p>
       </div>
       {isHovered === event.id && (
         <div style={hoveredCardOverlay}>
@@ -106,7 +112,7 @@ const Events = () => {
             onClick={() => handleMoreInfoClick(event.id)}
             className="mt-2 w-full bg-blue-500 text-white py-2 rounded"
           >
-            MoreInfo
+            More Info
           </button>
         </div>
       )}
@@ -114,11 +120,11 @@ const Events = () => {
   )
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100 px-4">
       {/* Popular Events Section */}
       <section className="mb-12">
         <h2 className="text-4xl font-bold mb-8 text-center text-white">Popular Events</h2>
-        <div className="md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {popularEvents.map((event) => (
             <EventCard
               key={event.id}
@@ -135,14 +141,14 @@ const Events = () => {
       <section>
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Events</h2>
         {events.length > 0 ? (
-          <div className=" md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {events.map((event) => (
               <EventCard
                 key={event.id}
                 event={event}
                 isHovered={hoveredAllEvent}
                 setHovered={setHoveredAllEvent}
-                isPopular={true}
+                isPopular={false}
               />
             ))}
           </div>

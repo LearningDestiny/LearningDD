@@ -1,5 +1,4 @@
-// EnrollmentForm.js
-'use client'
+'use client';
 
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,22 +14,20 @@ const EnrollmentForm = ({ course, onClose }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
 
-  const Popup = ({ message, onClose }) => {
-    return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white text-gray-800 p-6 rounded-lg shadow-lg w-full max-w-sm">
-          <h2 className="text-xl font-bold mb-4">Notification</h2>
-          <p className="mb-4">{message}</p>
-          <button
-            onClick={onClose}
-            className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition duration-300"
-          >
-            Close
-          </button>
-        </div>
+  const Popup = ({ message, onClose }) => (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white text-gray-800 p-6 rounded-lg shadow-lg w-full max-w-sm">
+        <h2 className="text-xl font-bold mb-4">Notification</h2>
+        <p className="mb-4">{message}</p>
+        <button
+          onClick={onClose}
+          className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition duration-300"
+        >
+          Close
+        </button>
       </div>
-    );
-  };
+    </div>
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,8 +61,8 @@ const EnrollmentForm = ({ course, onClose }) => {
   const priceFloat = parseFloat(course.price.replace(/[^0-9.-]+/g, '').replace(',', ''));
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-black p-6 rounded-lg shadow-lg w-full max-w-md">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4 overflow-auto">
+      <div className="bg-gray-800 text-gray-200 p-6 rounded-lg shadow-lg w-full max-w-md max-h-screen overflow-y-auto">
         {isSubmitted ? (
           <div className="flex flex-col items-center">
             <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 text-4xl mb-4" />
@@ -77,19 +74,47 @@ const EnrollmentForm = ({ course, onClose }) => {
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-lg font-medium mb-2" htmlFor="name">Name</label>
-                <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-3 py-2 border rounded-lg border-gray-300" required />
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg border-gray-300"
+                  required
+                />
               </div>
               <div className="mb-4">
                 <label className="block text-lg font-medium mb-2" htmlFor="contactNumber">Contact Number</label>
-                <input type="tel" id="contactNumber" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} className="w-full px-3 py-2 border rounded-lg border-gray-300" required />
+                <input
+                  type="tel"
+                  id="contactNumber"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg border-gray-300"
+                  required
+                />
               </div>
               <div className="mb-4">
                 <label className="block text-lg font-medium mb-2" htmlFor="stream">Stream/Branch of Study</label>
-                <input type="text" id="stream" value={stream} onChange={(e) => setStream(e.target.value)} className="w-full px-3 py-2 border rounded-lg border-gray-300" required />
+                <input
+                  type="text"
+                  id="stream"
+                  value={stream}
+                  onChange={(e) => setStream(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg border-gray-300"
+                  required
+                />
               </div>
               <div className="mb-4">
                 <label className="block text-lg font-medium mb-2" htmlFor="qualification">Qualification</label>
-                <input type="text" id="qualification" value={qualification} onChange={(e) => setQualification(e.target.value)} className="w-full px-3 py-2 border rounded-lg border-gray-300" required />
+                <input
+                  type="text"
+                  id="qualification"
+                  value={qualification}
+                  onChange={(e) => setQualification(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg border-gray-300"
+                  required
+                />
               </div>
 
               <PaymentHandlerButton finalAmt={priceFloat} fullName={name} email={contactNumber} contact={contactNumber} />

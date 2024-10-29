@@ -128,8 +128,6 @@ const Internship = () => {
     internship.description.toLowerCase().includes(searchQuery)
   )
 
-  const popularInternships = internships.slice(0, 2)
-
   const handleMoreInfo = (internshipId) => {
     router.push(`/internship/${internshipId}`)
   }
@@ -142,7 +140,7 @@ const Internship = () => {
       <section>
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Internships</h2>
         {filteredInternships.length > 0 ? (
-          <div className="md:grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-8">
             {filteredInternships.map(internship => (
               <InternshipCard
                 key={internship.id}

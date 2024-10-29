@@ -22,13 +22,8 @@ const WorkshopDetails = ({ id }) => {
     fetchWorkshop();
   }, [id]);
 
-  const handleEnrollClick = () => {
-    setFormVisible(true);
-  };
-
-  const handleCloseForm = () => {
-    setFormVisible(false);
-  };
+  const handleEnrollClick = () => setFormVisible(true);
+  const handleCloseForm = () => setFormVisible(false);
 
   if (!workshop) {
     return <div className="text-center text-white text-2xl mt-10">Loading workshop details...</div>;
@@ -36,28 +31,27 @@ const WorkshopDetails = ({ id }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 via-indigo-900 to-gray-900 text-gray-100">
-      <div className="container mx-auto py-12 px-6 flex-grow">
+      <div className="container mx-auto py-12 px-4 lg:px-8 flex-grow">
         {/* Workshop Header */}
-        <div className="flex flex-col md:flex-row items-start justify-center md:justify-start text-center md:text-left border-b border-gray-700 pb-8">
-          <div className="w-full md:w-1/3 mb-8 md:mb-0 flex justify-center">
+        <div className="flex flex-col   border-b border-gray-700 pb-8 space-y-6 md:space-y-0 md:space-x-8">
+        <div className="w-full md:w-1/4 flex justify-center md:justify-start">
+
             <img
               src={workshop.imageUrl}
               alt={workshop.title}
-              className="rounded-lg shadow-lg object-cover"
-              style={{ maxWidth: '100%', maxHeight: '350px' }}
+              className="rounded-lg shadow-lg "
+              style={{ width: '40%', height: '200px' }}
             />
           </div>
-          <div className="md:ml-8 flex-1">
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-white">{workshop.title}</h2>
-            <p className="mb-4 text-base md:text-lg text-gray-300">{workshop.description}</p>
+          <div className="w-full md:w-2/4 flex-1 space-y-2">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white">{workshop.title}</h2>
+            <p className="text-lg text-gray-300">{workshop.description}</p>
             <p className="text-lg text-gray-300"><strong>Instructor:</strong> {workshop.instructor}</p>
             <p className="text-lg text-gray-300"><strong>Duration:</strong> {workshop.duration}</p>
-            {workshop.lectureCount && (
-              <p className="text-lg text-gray-300"><strong>Lectures:</strong> {workshop.lectureCount}</p>
-            )}
+            {workshop.lectureCount && <p className="text-lg text-gray-300"><strong>Lectures:</strong> {workshop.lectureCount}</p>}
             {workshop.rating && (
-              <div className="flex items-center mt-2">
-                <div className="flex items-center">
+              <div className="flex  mt-2">
+                <div className="flex ">
                   {[...Array(5)].map((_, index) => (
                     <FaStar key={index} className={index < Math.floor(workshop.rating) ? "text-yellow-400" : "text-gray-400"} />
                   ))}
@@ -65,21 +59,23 @@ const WorkshopDetails = ({ id }) => {
                 <span className="ml-2 text-gray-300">{workshop.rating} ({workshop.ratingCount} ratings)</span>
               </div>
             )}
-            <p className="font-bold mt-6 text-2xl md:text-3xl text-indigo-400">{workshop.price}</p>
-            <button
-              className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105"
-              onClick={handleEnrollClick}
-            >
-              Enroll Now
-            </button>
+            <p className="font-bold text-2xl md:text-3xl text-indigo-400">{workshop.price}</p>
+            <div className="flex justify-start">
+              <button
+                className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105"
+                onClick={handleEnrollClick}
+              >
+                Enroll Now
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Workshop Highlights */}
         {workshop.highlights && (
           <div className="mt-12">
-            <h3 className="text-3xl font-bold mb-6 text-indigo-300">Workshop Highlights</h3>
-            <ul className="list-disc list-inside text-lg ml-8 text-gray-300 border-l-4 border-dotted border-indigo-500 pl-4">
+            <h3 className="text-3xl font-bold mb-6 text-indigo-300 text-left">Workshop Highlights</h3>
+            <ul className="list-disc list-inside text-lg text-gray-300 border-l-4 border-dotted border-indigo-500 pl-6 ml-6">
               {workshop.highlights.map((highlight, index) => (
                 <li key={index} className="mb-2">{highlight}</li>
               ))}
@@ -90,7 +86,7 @@ const WorkshopDetails = ({ id }) => {
         {/* Workshop Roadmap */}
         {workshop.roadmap && (
           <div className="mt-12">
-            <h3 className="text-3xl font-bold mb-6 text-indigo-300">Workshop Roadmap</h3>
+            <h3 className="text-3xl font-bold mb-6 text-indigo-300 text-left">Workshop Roadmap</h3>
             <div className="space-y-8">
               {workshop.roadmap.map((month, monthIndex) => (
                 <div key={monthIndex} className="p-6 bg-gray-800 rounded-lg shadow-lg border border-indigo-600">

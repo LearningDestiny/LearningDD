@@ -6,7 +6,6 @@ import { FaCalendarAlt } from 'react-icons/fa';
 import { Header } from '@/components/landing-page';
 import PaymentHandlerButton from '@/components/PaymentHandlerButton';
 
-
 const workshops = [
   {
     id: 1,
@@ -130,7 +129,7 @@ const Workshop = () => {
       <section>
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Workshops</h2>
         {filteredWorkshops.length > 0 ? (
-          <div className="md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
             {filteredWorkshops.map(workshop => (
               <WorkshopCard
                 key={workshop.id}
@@ -145,9 +144,6 @@ const Workshop = () => {
           <p className="text-center text-gray-500">No workshops found matching your search.</p>
         )}
       </section>
-
-      {/* Mobile View for Workshops */}
-   
     </div>
   );
 };

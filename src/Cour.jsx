@@ -192,7 +192,7 @@ const Cour = () => {
       {/* Enrollment Form Modal */}
       {isFormOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-lg p-8 max-w-lg w-full relative">
+          
             <button
               onClick={closeEnrollmentForm}
               className="text-red-500 font-bold absolute top-2 right-2"
@@ -200,7 +200,7 @@ const Cour = () => {
               Close
             </button>
             <EnrollmentForm course={selectedCourse} onClose={closeEnrollmentForm} />
-          </div>
+          
         </div>
       )}
     </div>

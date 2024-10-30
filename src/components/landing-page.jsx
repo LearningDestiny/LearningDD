@@ -637,7 +637,7 @@ function Events() {
                         onClick={() => router.push(`/event/${event.id}`)}
                         className="w-full bg-indigo-600 text-white py-2 rounded-md text-sm"
                       >
-                        More Info
+                        More-Info
                       </button>
                     </div>
                   </div>

@@ -12,9 +12,9 @@ import { FaPlayCircle, FaCalendarAlt } from 'react-icons/fa'
 import { Menu, X, Search } from "lucide-react"
 import { useRouter } from 'next/navigation'
 import { courses, events } from '../../src/Data'
-import PaymentHandlerButton from '@/components/PaymentHandlerButton'
+import PaymentHandlerButton from '../../src/components/PaymentHandlerButton'
 
-import { FaUser, FaEnvelope, FaPhone, FaFileAlt, FaPaperPlane } from 'react-icons/fa'
+
 
 //import EnrollmentForm from '@/enrollpages'
 
@@ -630,7 +630,9 @@ function Events() {
                       </ul>
                     </div>
                     <div className="mt-4 w-full flex flex-col space-y-2">
-                      <PaymentHandlerButton finalAmt={priceValue(event.price)} />
+                      <PaymentHandlerButton finalAmt={priceValue(event.price)}
+                       className="mt-2 w-full bg-blue-500 text-white py-2 rounded lg:py-2 sm:py-2"
+                       />
                       <button
                         onClick={() => router.push(`/event/${event.id}`)}
                         className="w-full bg-indigo-600 text-white py-2 rounded-md text-sm"

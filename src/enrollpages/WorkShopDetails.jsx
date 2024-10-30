@@ -40,7 +40,7 @@ const WorkshopDetails = ({ id }) => {
               src={workshop.imageUrl}
               alt={workshop.title}
               className="rounded-lg shadow-lg "
-              style={{ width: '40%', height: '200px' }}
+              style={{  width: '100%', maxWidth: '450px' }}
             />
           </div>
           <div className="w-full md:w-2/4 flex-1 space-y-2">

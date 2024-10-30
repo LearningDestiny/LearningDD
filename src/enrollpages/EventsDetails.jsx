@@ -28,7 +28,7 @@ const EventDetails = ({ id }) => {
               src={event.imageUrl}
               alt={event.title}
               className="rounded-lg shadow-lg object-cover"
-              style={{  maxWidth: '40%', maxHeight: '200px' }}
+              style={{  width: '100%', maxWidth: '450px' }}
             />
           </div>
           <div className="md:ml-8 w-full md:w-2/3 text-center md:text-left">
@@ -38,18 +38,18 @@ const EventDetails = ({ id }) => {
               <FaCalendarAlt className="mr-2" />
               <p>{event.date}</p>
             </div>
-            <div className="flex items-center  md:justify-start mb-2 text-gray-300">
+            <div className="flex   md:justify-start mb-2 text-gray-300">
               <FaMapMarkerAlt className="mr-2" />
               <p>{event.location}</p>
             </div>
-            <div className="flex items-center  md:justify-start mb-2 text-gray-300">
+            <div className="flex  md:justify-start mb-2 text-gray-300">
               <FaClock className="mr-2" />
               <p>{event.duration}</p>
             </div>
             <p className="text-lg text-gray-300"><strong>Organizer:</strong> {event.organizer}</p>
             {event.rating && (
-              <div className="flex items-center justify-center md:justify-start mt-2">
-                <div className="flex items-center">
+              <div className="flex items-center  md:justify-start mt-2">
+                <div className="flex ">
                   {[...Array(5)].map((_, index) => (
                     <FaStar key={index} className={index < Math.floor(event.rating) ? "text-yellow-400" : "text-gray-400"} />
                   ))}

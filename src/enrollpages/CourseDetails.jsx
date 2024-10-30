@@ -30,7 +30,7 @@ const CourseDetails = ({ params }) => {
           src={course?.imageUrl}
           alt={course?.title}
           className="rounded-lg shadow-lg object-cover"
-          style={{ maxWidth: '40%', maxHeight: '200px' }}
+          style={{  width: '100%', maxWidth: '450px'}}
         />
       </div>
           <div className="md:ml-8 flex-">

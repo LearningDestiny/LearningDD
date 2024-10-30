@@ -97,7 +97,7 @@ const Events = () => {
       {isHovered === event.id && (
         <div style={hoveredCardOverlay}>
           <h4 className="font-semibold text-sm">{event.title}</h4>
-          <p className="text-xs mt-1">{event.location}</p>
+         
           <p className="text-xs mt-2">{event.date} · {event.duration}</p>
           <p className="text-xs mt-2">{event.description}</p>
           <ul className="text-xs mt-2">
@@ -107,10 +107,13 @@ const Events = () => {
               </li>
             ))}
           </ul>
-          <PaymentHandlerButton finalAmt={price(event.price)} />
+          <PaymentHandlerButton
+            finalAmt={price(event.price)}
+            className="mt-2 w-full bg-blue-500 text-white py-2 rounded lg:py-2 sm:py-2"
+          />
           <button
             onClick={() => handleMoreInfoClick(event.id)}
-            className="mt-2 w-full bg-blue-500 text-white py-2 rounded"
+            className="mt-2 w-full bg-blue-500 text-white py-2 rounded lg:py-2 sm:py-2"
           >
             More Info
           </button>
@@ -118,7 +121,6 @@ const Events = () => {
       )}
     </div>
   )
-
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100 px-4">
       {/* Popular Events Section */}

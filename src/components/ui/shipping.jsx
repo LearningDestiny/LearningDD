@@ -7,6 +7,8 @@ export default function shipping() {
     <div className="bg-gray-50 min-h-screen py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <h1 className="text-3xl font-bold mb-8 text-center">Shipping and Delivery Policy</h1>
+        <p className="mb-4 text-gray-600">Effective Date: 04/10/2024</p>
+        
         
         <div className="bg-white shadow-md rounded-lg p-8 mb-8">
           <p className="mb-4">

@@ -1,5 +1,4 @@
 'use client'
-
 import React, { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Header } from '../../components/landing-page'
@@ -92,7 +91,7 @@ const Internship = () => {
   useEffect(() => {
     const fetchInternships = async () => {
       try {
-        const response = await axios.get('/api/internship');
+        const response = await axios.get('/api/internships'); // Updated endpoint
         setInternships(response.data);
         setLoading(false);
       } catch (err) {

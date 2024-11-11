@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { FaPlayCircle } from 'react-icons/fa';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Header } from '@/components/landing-page'; // Importing the Header component
+import { Header } from '../../components/landing-page'; // Importing the Header component
 
 const internships = [
   {
@@ -40,7 +40,7 @@ const internships = [
   },
 ];
 
-const Internship = () => {
+const Internships = () => {
   const location = useSearchParams();
   const router = useRouter();
   const searchParams = new URLSearchParams(location.search);

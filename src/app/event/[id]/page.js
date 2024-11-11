@@ -1,5 +1,7 @@
 // pages/event/[id].js
+import Events from '../../../components/ui/Events';
 import EventDetails from '../../../enrollpages/EventsDetails';
+import {event} from '../../../Pages/api/events'
 import React from 'react';
 
 const Page = ({ params }) => {
@@ -12,6 +14,7 @@ const Page = ({ params }) => {
   return (
     <>
       <EventDetails id={id} />
+     
     </>
   );
 };

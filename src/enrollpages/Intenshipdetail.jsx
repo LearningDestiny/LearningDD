@@ -36,7 +36,7 @@ const InternshipDetails = ({ id }) => {
               src={internship.imageUrl}
               alt={internship.title}
               className="rounded-lg shadow-lg object-cover"
-              style={{ maxWidth: '100%', maxHeight: '350px' }}
+              style={{ maxWidth: '100%', maxHeight: '350px' }} 
             />
           </div>
           <div className="md:ml-8 flex-1">

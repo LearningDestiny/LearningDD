@@ -1,5 +1,5 @@
 'use client'
-import PrivacyPolicy from "@/components/ui/policy";
+import PrivacyPolicy from "../../components/ui/policy";
 const  page = () => {
   return (
     <>

@@ -1,19 +1,29 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { FaCalendarAlt } from "react-icons/fa"
-import { useRouter, useSearchParams } from "next/navigation"
-import PaymentHandlerButton from "@/components/PaymentHandlerButton"
-import { events } from "../../Data" 
+import React, { useState, useEffect } from "react";
+import { FaCalendarAlt } from "react-icons/fa";
+import { useRouter, useSearchParams } from "next/navigation";
+import PaymentHandlerButton from "../../components/PaymentHandlerButton";
+import axios from "axios";
 
 const Events = () => {
+  const [events, setEvents] = useState([])
+  const [hoveredPopularEvent, setHoveredPopularEvent] = useState(null)
+  const [hoveredAllEvent, setHoveredAllEvent] = useState(null)
   const location = useSearchParams()
   const router = useRouter()
   const searchParams = new URLSearchParams(location.toString())
   const searchQuery = searchParams.get("search")?.toLowerCase() || ""
 
-  const [hoveredPopularEvent, setHoveredPopularEvent] = useState(null)
-  const [hoveredAllEvent, setHoveredAllEvent] = useState(null)
+  useEffect(() => {
+    fetchEvents()
+  }, [])
+
+  const fetchEvents = async () => {
+    const response = await fetch('/api/events')
+    const data = await response.json()
+    setEvents(data)
+  }
 
   const popularEvents = events.slice(0, 2)
 
@@ -27,7 +37,7 @@ const Events = () => {
     cursor: "pointer",
     boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
     border: "2px solid #3b82f6",
-    margin: "8px" // Add some margin between cards
+    margin: "8px"
   }
 
   const imageStyles = {
@@ -43,7 +53,7 @@ const Events = () => {
     position: "absolute",
     inset: 0,
     padding: "16px",
-    backgroundColor: "rgba(255, 255, 255, 0.95)", // Slightly more opaque for better visibility
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
     opacity: 1,
     zIndex: 10,
     transition: "opacity 0.3s ease-in-out",
@@ -89,6 +99,7 @@ const Events = () => {
           width: "100%",
           color: "white",
         }}
+      
       >
         <h4 className="font-semibold text-sm">{event.title}</h4>
         <p className="text-xs text-gray-300">{event.date}</p>
@@ -121,6 +132,7 @@ const Events = () => {
       )}
     </div>
   )
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100 px-4">
       {/* Popular Events Section */}

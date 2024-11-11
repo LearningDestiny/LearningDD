@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card } from "../../../components/ui/card";
 import { SignUp } from '@clerk/nextjs';
 import Image from 'next/image';
 

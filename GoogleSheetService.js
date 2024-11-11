@@ -1,12 +1,13 @@
 // GoogleSheetService.js
-const { google } = require("googleapis");
-const path = require("path");
+import { google } from "googleapis";
+import { join } from "path";
+
 
 const sheets = google.sheets("v4");
 
 // Initialize Google Auth
 const auth = new google.auth.GoogleAuth({
-  keyFile: path.join(__dirname, "path/to/your/service-account-key.json"), // Path to your service account key file
+  keyFile: join(__dirname, "path/to/your/service-account-key.json"), // Path to your service account key file
   scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scopes for Sheets API
 });
 
@@ -35,4 +36,4 @@ async function appendData(data) {
   }
 }
 
-module.exports = { appendData };
+export default { appendData };

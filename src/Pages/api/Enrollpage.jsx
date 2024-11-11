@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { courses } from '../data';
+import data from '../../Data';
 import { getDatabase, ref, set } from 'firebase/database';
 
 const EnrollPage = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const course = courses.find(c => c.id === Number(courseId));
+  const course = course.find(c => c.id === Number(courseId));
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

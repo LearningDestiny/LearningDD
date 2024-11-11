@@ -1,5 +1,5 @@
 'use client'
-import Shipping from "@/components/ui/shipping";
+import Shipping from "../../components/ui/shipping";
 const  page = () => {
     return (
       <>

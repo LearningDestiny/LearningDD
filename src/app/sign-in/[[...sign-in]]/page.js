@@ -1,5 +1,5 @@
 import { SignIn } from '@clerk/nextjs'
-import { Card } from "@/components/ui/card"
+import { Card } from "../../../components/ui/card"
 
 import Image from 'next/image';
 export default function Page() {

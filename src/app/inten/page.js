@@ -4,40 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Header } from '../../components/landing-page'
 import Link from 'next/link'
-import { FaPlayCircle, FaCalendarAlt, FaInfoCircle } from 'react-icons/fa'
-
-const internships = [
-  {
-    id: 1,
-    title: 'Software Internship',
-    company: 'Learning Destiny',
-    stipend: '5000Rs/month',
-    imageUrl: '/SDIntern.png',
-    description: 'Join our team to work on exciting software projects and enhance your skills.',
-    lastUpdated: 'Last updated: September 2024',
-    duration: '3 months',
-  },
-  {
-    id: 2,
-    title: 'Digital Marketing Internship',
-    company: 'Learning Destiny',
-    stipend: '3000Rs/month',
-    imageUrl: '/DMIntern.png',
-    description: 'Gain hands-on experience in digital marketing strategies and social media management.',
-    lastUpdated: 'Last updated: August 2024',
-    duration: '6 months',
-  },
-  {
-    id: 3,
-    title: 'Graphic Design Internship',
-    company: 'Learning Destiny',
-    stipend: '4000Rs/month',
-    imageUrl: '/GraphicIntern.png',
-    description: 'Work with our design team to create engaging visuals for various projects.',
-    lastUpdated: 'Last updated: July 2024',
-    duration: '4 months',
-  },
-]
+import { FaInfoCircle } from 'react-icons/fa'
+import axios from 'axios'
 
 const InternshipCard = ({ internship, isHovered, onHover, onLeave, onMoreInfo }) => {
   const cardStyles = {
@@ -50,7 +18,7 @@ const InternshipCard = ({ internship, isHovered, onHover, onLeave, onMoreInfo })
     cursor: 'pointer',
     boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
     border: '2px solid #3b82f6',
-  }
+  };
 
   const imageStyles = {
     position: 'absolute',
@@ -59,7 +27,7 @@ const InternshipCard = ({ internship, isHovered, onHover, onLeave, onMoreInfo })
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-  }
+  };
 
   const hoveredCardOverlay = {
     position: 'absolute',
@@ -70,7 +38,7 @@ const InternshipCard = ({ internship, isHovered, onHover, onLeave, onMoreInfo })
     zIndex: 10,
     transition: 'opacity 0.3s ease-in-out',
     borderRadius: '8px',
-  }
+  };
 
   return (
     <div
@@ -108,28 +76,50 @@ const InternshipCard = ({ internship, isHovered, onHover, onLeave, onMoreInfo })
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 const Internship = () => {
-  const [isClient, setIsClient] = useState(false)
-  const location = useSearchParams()
-  const router = useRouter()
-  const searchParams = new URLSearchParams(location.toString())
-  const searchQuery = searchParams.get('search')?.toLowerCase() || ''
-  const [hoveredInternship, setHoveredInternship] = useState(null)
+  const [internships, setInternships] = useState([]);
+  const [hoveredInternship, setHoveredInternship] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const location = useSearchParams();
+  const router = useRouter();
+  const searchParams = new URLSearchParams(location.toString());
+  const searchQuery = searchParams.get('search')?.toLowerCase() || '';
 
   useEffect(() => {
-    setIsClient(true)
-  }, [])
+    const fetchInternships = async () => {
+      try {
+        const response = await axios.get('/api/internship');
+        setInternships(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching internships:', err);
+        setError('Failed to load internships. Please try again later.');
+        setLoading(false);
+      }
+    };
 
-  const filteredInternships = internships.filter(internship =>
+    fetchInternships();
+  }, []);
+
+  const filteredInternships = internships.filter((internship) =>
     internship.title.toLowerCase().includes(searchQuery) ||
     internship.description.toLowerCase().includes(searchQuery)
-  )
+  );
 
   const handleMoreInfo = (internshipId) => {
-    router.push(`/internship/${internshipId}`)
+    router.push(`/internship/${internshipId}`);
+  };
+
+  if (loading) {
+    return <div>Loading internships...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   return (
@@ -141,7 +131,7 @@ const Internship = () => {
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Internships</h2>
         {filteredInternships.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-8">
-            {filteredInternships.map(internship => (
+            {filteredInternships.map((internship) => (
               <InternshipCard
                 key={internship.id}
                 internship={internship}
@@ -157,7 +147,7 @@ const Internship = () => {
         )}
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Internship
+export default Internship;

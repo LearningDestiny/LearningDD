@@ -1,6 +1,6 @@
+// PaymentHandlerButton.js
 "use client";
-import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { useToast } from "../../src/hooks/use-toast";
@@ -10,6 +10,8 @@ function PaymentHandlerButton({
   fullName,
   email,
   contact,
+  stream,         // Ensure you are passing stream and qualification
+  qualification,  // Ensure you are passing stream and qualification
 }) {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -27,11 +29,19 @@ function PaymentHandlerButton({
   }, []);
 
   const saveDataToGoogleSheets = async () => {
+    console.log("Sending data to API:", { fullName, email, contact, stream, qualification }); // Log data here
+
     try {
       const res = await fetch("/api/googleSheets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: fullName, email, contact }),
+        body: JSON.stringify({
+          name: fullName,
+          email,
+          contact,
+          stream,         // Ensure stream is passed
+          qualification,  // Ensure qualification is passed
+        }),
       });
       const result = await res.json();
 
@@ -40,12 +50,14 @@ function PaymentHandlerButton({
           title: "Data Saved",
           description: "Your data has been successfully saved to Google Sheets.",
         });
+        return true; // Return true if data is saved successfully
       } else {
         toast({
           title: "Data Save Failed",
           description: result.message || "An error occurred while saving data.",
           variant: "destructive",
         });
+        return false; // Return false if data saving failed
       }
     } catch (error) {
       console.error("Error saving data to Google Sheets:", error);
@@ -54,6 +66,7 @@ function PaymentHandlerButton({
         description: "A network error occurred while trying to save data.",
         variant: "destructive",
       });
+      return false; // Return false in case of network error
     }
   };
 
@@ -61,6 +74,12 @@ function PaymentHandlerButton({
     event.preventDefault();
     setLoading(true);
     try {
+      const dataSaved = await saveDataToGoogleSheets();
+      if (!dataSaved) {
+        setLoading(false);
+        return;
+      }
+
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -87,7 +106,6 @@ function PaymentHandlerButton({
               title: "Payment Successful",
               description: "Your payment has been processed successfully.",
             });
-            await saveDataToGoogleSheets(); // Call to save data after successful payment
           } else {
             toast({
               title: "Payment Verification Failed",

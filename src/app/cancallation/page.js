@@ -1,5 +1,5 @@
 'use client'
-import Cancallation from "@/components/ui/cancallation"
+import Cancallation from "../../components/ui/cancallation"
 const  page = () => {
   return (
     <>

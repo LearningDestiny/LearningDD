@@ -1,43 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FaCalendarAlt } from 'react-icons/fa';
-import { Header } from '@/components/landing-page';
-import PaymentHandlerButton from '@/components/PaymentHandlerButton';
-
-const workshops = [
-  {
-    id: 1,
-    title: 'Full Stack Web Development Workshop',
-    instructor: 'Jane Doe',
-    price: '999 Rs',
-    imageUrl: '/WebDevPoster.png',
-    description: 'A workshop to enhance your Website Development Skills.',
-    lastUpdated: 'Last updated: September 2024',
-    duration: '3 hours',
-  },
-  {
-    id: 2,
-    title: 'Data Analysis with Python Workshop',
-    instructor: 'John Smith',
-    price: '999 Rs',
-    imageUrl: '/DataAnalysisPoster.png',
-    description: 'Learn the fundamentals of Data Analysis with Python in this hands-on workshop.',
-    lastUpdated: 'Last updated: August 2024',
-    duration: '4 hours',
-  },
-  {
-    id: 3,
-    title: 'Digital Marketing Bootcamp',
-    instructor: 'Emily Johnson',
-    price: '999 Rs',
-    imageUrl: '/placeholder.svg?height=200&width=200',
-    description: 'An intensive workshop covering the latest digital marketing strategies.',
-    lastUpdated: 'Last updated: July 2024',
-    duration: '5 hours',
-  },
-];
+import { Header } from '../../components/landing-page';
+import PaymentHandlerButton from '../../components/PaymentHandlerButton';
+import axios from 'axios';
 
 const WorkshopCard = ({ workshop, isHovered, onHover, onLeave }) => {
   const router = useRouter();
@@ -115,18 +83,45 @@ const Workshop = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search')?.toLowerCase() || '';
   const [hoveredWorkshop, setHoveredWorkshop] = useState(null);
+  const [workshops, setWorkshops] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchWorkshops = async () => {
+      try {
+        const response = await axios.get('/api/workshops');
+        setWorkshops(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching workshops:', err);
+        setError('Failed to load workshops. Please try again later.');
+        setLoading(false);
+      }
+    };
+
+    fetchWorkshops();
+  }, []);
 
   const filteredWorkshops = workshops.filter(workshop =>
     workshop.title.toLowerCase().includes(searchQuery) ||
     workshop.description.toLowerCase().includes(searchQuery)
   );
 
+  if (loading) {
+    return <div className="text-center text-white">Loading workshops...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100">
       <Header />
 
       {/* All Workshops Section */}
-      <section>
+      <section className="container mx-auto px-4 py-8">
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Workshops</h2>
         {filteredWorkshops.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">

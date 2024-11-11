@@ -5,20 +5,9 @@ import { useRouter } from 'next/navigation';
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus, FaEye } from 'react-icons/fa';
 import axios from 'axios';
 
-interface Internship {
-  id: number;
-  title: string;
-  company: string;
-  stipend: string;
-  imageUrl: string;
-  description: string;
-  lastUpdated: string;
-  duration: string;
-}
-
 export default function ManageInternships() {
-  const [internships, setInternships] = useState<Internship[]>([]);
-  const [editingInternship, setEditingInternship] = useState<Internship | null>(null);
+  const [internships, setInternships] = useState([]);
+  const [editingInternship, setEditingInternship] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,14 +16,14 @@ export default function ManageInternships() {
 
   const fetchInternships = async () => {
     try {
-      const response = await axios.get<Internship[]>('/api/internships');
+      const response = await axios.get('/api/internships');
       setInternships(response.data);
     } catch (error) {
       console.error('Error fetching internships:', error);
     }
   };
 
-  const handleEditInternship = (internship: Internship) => {
+  const handleEditInternship = (internship) => {
     setEditingInternship({ ...internship });
   };
 
@@ -54,7 +43,7 @@ export default function ManageInternships() {
     }
   };
 
-  const handleDeleteInternship = async (id: number) => {
+  const handleDeleteInternship = async (id) => {
     try {
       await axios.delete(`/api/internships?id=${id}`);
       fetchInternships();
@@ -63,17 +52,17 @@ export default function ManageInternships() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditingInternship((prev) => (prev ? { ...prev, [name]: value } : null));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setEditingInternship((prev) => (prev ? { ...prev, imageUrl: reader.result as string } : null));
+        setEditingInternship((prev) => (prev ? { ...prev, imageUrl: reader.result } : null));
       };
       reader.readAsDataURL(file);
     }
@@ -139,15 +128,76 @@ export default function ManageInternships() {
               {editingInternship.id ? 'Edit Internship' : 'Add New Internship'}
             </h3>
             <form onSubmit={(e) => { e.preventDefault(); handleUpdateInternship(); }}>
-              {/* Form fields for editing internship */}
-              {/* Form fields for title, company, stipend, duration, description, and image */}
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={editingInternship.title}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Internship Title"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2">Company</label>
+                <input
+                  type="text"
+                  name="company"
+                  value={editingInternship.company}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Company Name"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2">Stipend</label>
+                <input
+                  type="text"
+                  name="stipend"
+                  value={editingInternship.stipend}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Stipend Amount"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2">Duration</label>
+                <input
+                  type="text"
+                  name="duration"
+                  value={editingInternship.duration}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Duration"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2">Description</label>
+                <textarea
+                  name="description"
+                  value={editingInternship.description}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Internship Description"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-semibold mb-2">Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="w-full p-2 border rounded-md"
+                />
+              </div>
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 {editingInternship.id ? 'Update Internship' : 'Add Internship'}
               </button>
               <button
                 type="button"
                 onClick={() => setEditingInternship(null)}
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded ml-4"
               >
                 Cancel
               </button>

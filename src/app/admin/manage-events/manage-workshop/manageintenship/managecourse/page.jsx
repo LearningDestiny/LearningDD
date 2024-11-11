@@ -4,18 +4,9 @@ import { useRouter } from "next/navigation";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import axios from "axios";
 
-interface Course {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  duration: string;
-  price: string;
-}
-
 export default function AdminCoursesPage() {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [courses, setCourses] = useState([]);
+  const [editingCourse, setEditingCourse] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -24,18 +15,18 @@ export default function AdminCoursesPage() {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get<Course[]>("/api/courses");
+      const response = await axios.get("/api/courses");
       setCourses(response.data);
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
   };
 
-  const handleEditCourse = (course: Course) => {
+  const handleEditCourse = (course) => {
     setEditingCourse({ ...course });
   };
 
-  const handleDeleteCourse = async (id: number) => {
+  const handleDeleteCourse = async (id) => {
     try {
       await axios.delete(`/api/courses?id=${id}`);
       fetchCourses();
@@ -55,17 +46,17 @@ export default function AdminCoursesPage() {
     });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditingCourse((prev) => (prev ? { ...prev, [name]: value } : null));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setEditingCourse((prev) => (prev ? { ...prev, imageUrl: reader.result as string } : null));
+        setEditingCourse((prev) => (prev ? { ...prev, imageUrl: reader.result } : null));
       };
       reader.readAsDataURL(file);
     }

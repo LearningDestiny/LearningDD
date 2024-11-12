@@ -1,4 +1,3 @@
-// pages/sitemap.xml.js
 const EXTERNAL_DATA_URL = 'https://learningdestiny.in';
 
 function generateSiteMap(posts) {
@@ -24,23 +23,29 @@ function generateSiteMap(posts) {
  `;
 }
 
+function SiteMap() {
+  // The XML sitemap is generated on the server
+}
+
 export async function getServerSideProps({ res }) {
-  
-  const request = await fetch(`${EXTERNAL_DATA_URL}/api/posts`);
-  const posts = await request.json();
+  try {
+    // Fetch data from your site's API
+    const request = await fetch(`${EXTERNAL_DATA_URL}/api/posts`);
+    const posts = await request.json();
 
-  // Generate XML sitemap with dynamic data
-  const sitemap = generateSiteMap(posts);
+    // Generate XML sitemap with dynamic data
+    const sitemap = generateSiteMap(posts);
 
-  res.setHeader('Content-Type', 'text/xml');
-  res.write(sitemap);
-  res.end();
+    res.setHeader('Content-Type', 'text/xml');
+    res.write(sitemap);
+    res.end();
+  } catch (error) {
+    console.error("Error generating sitemap:", error);
+  }
 
   return {
     props: {},
   };
 }
 
-export default function SiteMap() {
-  // Empty component as the XML file is generated on the server
-}
+export default SiteMap;

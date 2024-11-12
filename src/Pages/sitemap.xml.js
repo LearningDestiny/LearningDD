@@ -25,7 +25,7 @@ function generateSiteMap(posts) {
 }
 
 export async function getServerSideProps({ res }) {
-  // Fetch dynamic post data
+  
   const request = await fetch(`${EXTERNAL_DATA_URL}/api/posts`);
   const posts = await request.json();
 

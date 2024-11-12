@@ -11,7 +11,7 @@ import Events from './components/ui/Events';
 import Policy from './components/ui/Policy'; // Privacy Policy
 import Terms from './components/ui/Terms';
 import Shipping from './components/ui/Shipping'; // Shipping Policy
-import Inten from './components/ui/Inten'; // Internships
+import Inten from './src/components/ui/Inten'; // Internships
 import EventDetail from './enrollpages/EventsDetails';
 import WorkshopDetails from './enrollpages/WorkShopDetails';
 import Work from './components/ui/Work'; // Workshops

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { auth } from '../lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-
+import dynamic from 'next/dynamic'
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');

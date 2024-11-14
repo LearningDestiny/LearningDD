@@ -1,96 +1,82 @@
-import fs from 'fs/promises';
-import path from 'path';
+import { NextResponse } from 'next/server';
 
-const eventsFilePath = path.join(process.cwd(), 'src', 'pages', 'api', 'events.json');
+// In-memory store for events
+let events = [
+  {
+    id: '1',
+    title: 'Web Development Workshop',
+    date: '2024-03-15',
+    duration: '2 hours',
+    price: 'Free',
+    description: 'Learn the basics of web development in this hands-on workshop.',
+    imageUrl: '/placeholder.svg?height=300&width=400',
+    highlights: ['HTML', 'CSS', 'JavaScript basics']
+  },
+  {
+    id: '2',
+    title: 'Data Science Conference',
+    date: '2024-04-20',
+    duration: '1 day',
+    price: '$99',
+    description: 'Explore the latest trends in data science and machine learning.',
+    imageUrl: '/placeholder.svg?height=300&width=400',
+    highlights: ['AI/ML', 'Big Data', 'Data Visualization']
+  }
+];
 
-// Function to read events data from the JSON file
-async function readEventsFile() {
-  try {
-    const data = await fs.readFile(eventsFilePath, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    console.error('Error reading events file:', error);
-    throw new Error('Error reading events data');
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+
+  if (id) {
+    const event = events.find(e => e.id === id);
+    return event 
+      ? NextResponse.json(event)
+      : NextResponse.json({ message: 'Event not found' }, { status: 404 });
+  }
+
+  return NextResponse.json(events);
+}
+
+export async function POST(request) {
+  const newEvent = await request.json();
+  newEvent.id = Date.now().toString();
+  events.push(newEvent);
+  return NextResponse.json(newEvent, { status: 201 });
+}
+
+export async function PUT(request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  const updatedEvent = await request.json();
+
+  if (!id) {
+    return NextResponse.json({ message: 'Event ID is required for updating' }, { status: 400 });
+  }
+
+  const index = events.findIndex(event => event.id === id);
+  if (index !== -1) {
+    events[index] = { ...events[index], ...updatedEvent };
+    return NextResponse.json(events[index]);
+  } else {
+    return NextResponse.json({ message: 'Event not found' }, { status: 404 });
   }
 }
 
-// Function to write events data to the JSON file
-async function writeEventsFile(events) {
-  try {
-    await fs.writeFile(eventsFilePath, JSON.stringify(events, null, 2));
-  } catch (error) {
-    console.error('Error writing events file:', error);
-    throw new Error('Error writing events data');
+export async function DELETE(request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+
+  if (!id) {
+    return NextResponse.json({ message: 'Event ID is required for deletion' }, { status: 400 });
   }
-}
 
-export default async function handler(req, res) {
-  const { method, query: { id }, body } = req;
-  console.log(`Request received: Method - ${method}, ID - ${id}, Body - `, body);
+  const initialLength = events.length;
+  events = events.filter(event => event.id !== id);
 
-  try {
-    switch (method) {
-      case 'GET': {
-        const events = await readEventsFile();
-        res.status(200).json(events);
-        break;
-      }
-
-      case 'POST': {
-        const newEvent = { ...body, id: Date.now().toString() };
-        const events = await readEventsFile();
-        events.push(newEvent);
-        await writeEventsFile(events);
-        res.status(201).json(newEvent);
-        break;
-      }
-
-      case 'PUT': {
-        if (!id) {
-          res.status(400).json({ message: 'Event ID is required for updating' });
-          return;
-        }
-
-        const updatedEvent = body;
-        const events = await readEventsFile();
-        const index = events.findIndex(event => event.id === id.toString());
-
-        if (index !== -1) {
-          events[index] = { ...events[index], ...updatedEvent };
-          await writeEventsFile(events);
-          res.status(200).json(events[index]);
-        } else {
-          res.status(404).json({ message: 'Event not found' });
-        }
-        break;
-      }
-
-      case 'DELETE': {
-        if (!id) {
-          res.status(400).json({ message: 'Event ID is required for deletion' });
-          return;
-        }
-
-        const events = await readEventsFile();
-        const filteredEvents = events.filter(event => event.id !== id.toString());
-
-        if (events.length !== filteredEvents.length) {
-          await writeEventsFile(filteredEvents);
-          res.status(200).json({ message: 'Event deleted successfully' });
-        } else {
-          res.status(404).json({ message: 'Event not found' });
-        }
-        break;
-      }
-
-      default: {
-        res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
-        res.status(405).end(`Method ${method} Not Allowed`);
-        break;
-      }
-    }
-  } catch (error) {
-    console.error('Error handling request:', error);
-    res.status(500).json({ message: 'Internal server error' });
+  if (events.length !== initialLength) {
+    return NextResponse.json({ message: 'Event deleted successfully' });
+  } else {
+    return NextResponse.json({ message: 'Event not found' }, { status: 404 });
   }
 }

@@ -38,7 +38,7 @@ export async function GET(request) {
   return NextResponse.json(events);
 }
 
-export async function POST(request) {
+export async function POST(request: { json: () => any; }) {
   const newEvent = await request.json();
   newEvent.id = Date.now().toString();
   events.push(newEvent);
@@ -63,7 +63,7 @@ export async function PUT(request) {
   }
 }
 
-export async function DELETE(request) {
+export async function DELETE(request: { url: string | URL; }) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 

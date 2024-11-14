@@ -1,37 +1,38 @@
+// Import necessary modules
 import { NextRequest, NextResponse } from 'next/server';
 
 // In-memory store for internships
 let internships = [
   {
     id: '1',
-    title: 'Software Engineering Intern',
-    company: 'Tech Co',
-    imageUrl: '/placeholder.svg?height=300&width=400',
-    stipend: '$1000/month',
+    title: 'Software Internship',
+    company: 'Learning Destiny',
+    stipend: '5000Rs/month',
+    imageUrl: '/SDIntern.png',
+    description: 'Join our team to work on exciting software projects and enhance your skills.',
+    lastUpdated: 'Last updated: September 2024',
     duration: '3 months',
-    description: 'Join our team to work on cutting-edge projects.',
-    highlights: ['Learn modern tech stack', 'Mentorship program', 'Flexible hours']
   },
   {
     id: '2',
-    title: 'Data Science Intern',
-    company: 'Data Corp',
-    imageUrl: '/placeholder.svg?height=300&width=400',
-    stipend: '$1200/month',
+    title: 'Graphic Design Internship',
+    company: 'Learning Destiny',
+    stipend: '4000Rs/month',
+    imageUrl: '/GraphicIntern.png',
+    description: 'Work with our design team to create engaging visuals for various projects.',
+    lastUpdated: 'Last updated: July 2024',
     duration: '4 months',
-    description: 'Apply machine learning to solve real-world problems.',
-    highlights: ['Work with big data', 'Develop ML models', 'Collaborate with data engineers']
   }
 ];
 
-// GET: Fetch internship(s)
+// GET request handler for fetching all or a single internship by ID
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 
   if (id) {
     const internship = internships.find(i => i.id === id);
-    return internship
+    return internship 
       ? NextResponse.json(internship)
       : NextResponse.json({ message: 'Internship not found' }, { status: 404 });
   }
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(internships);
 }
 
-// POST: Add a new internship
+// POST request handler for adding a new internship
 export async function POST(request: NextRequest) {
   const newInternship = await request.json();
   newInternship.id = Date.now().toString();
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(newInternship, { status: 201 });
 }
 
-// PUT: Update an existing internship
+// PUT request handler for updating an existing internship
 export async function PUT(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
@@ -66,7 +67,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE: Remove an internship
+// DELETE request handler for deleting an internship
 export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');

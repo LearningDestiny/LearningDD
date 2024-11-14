@@ -232,38 +232,46 @@ export default function ManageInternships() {
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="highlights">
                   Highlights
                 </label>
-                {editingInternship.highlights.map((highlight, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    value={highlight}
-                    onChange={(e) => handleHighlightChange(index, e.target.value)}
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-                    placeholder="Highlight"
-                  />
+                {editingInternship.highlights?.map((highlight, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={highlight}
+                      onChange={(e) => handleHighlightChange(index, e.target.value)}
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    <button
+                      onClick={() => {
+                        const newHighlights = [...editingInternship.highlights];
+                        newHighlights.splice(index, 1);
+                        setEditingInternship((prev) => ({ ...prev, highlights: newHighlights }));
+                      }}
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                    >
+                      X
+                    </button>
+                  </div>
                 ))}
                 <button
-                  type="button"
                   onClick={handleAddHighlight}
-                  className="text-blue-500 text-sm underline"
+                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
-                  Add another highlight
+                  Add Highlight
                 </button>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex justify-end mt-4">
                 <button
-                  type="button"
                   onClick={() => setEditingInternship(null)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                  className="mr-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
                   Save Internship
                 </button>

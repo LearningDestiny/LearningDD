@@ -1,4 +1,5 @@
 // pages/event/[id].js
+'use client'
 import Events from '../../../components/ui/Events';
 import EventDetails from '../../../enrollpages/EventsDetails';
 import {event} from '../../../Pages/api/events'

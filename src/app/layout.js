@@ -4,8 +4,13 @@ import "./globals.css";
 import { ClerkProvider} from '@clerk/nextjs'
 import { Toaster } from "../components/ui/toaster";
 import { BrowserRouter } from "react-router-dom";
+import { Inter } from 'next/font/google'
 
-
+const inter = Inter({ subsets: ['latin'] })
+export const metadata = {
+  title: 'Internship Portal',
+  description: 'Find and apply for internships',
+}
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,7 +29,7 @@ const geistMono = localFont({
 
 export default function RootLayout({ children }) {
   return (
-    // <BrowserRouter>
+    <BrowserRouter>
 
     <ClerkProvider>
 
@@ -32,6 +37,7 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+           <body className={inter.className}>{children}</body>
       
           {children}
           <Toaster />

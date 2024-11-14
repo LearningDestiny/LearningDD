@@ -1,11 +1,12 @@
-'use client'
-import React, { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Header } from '../../components/landing-page'
-import Link from 'next/link'
-import { FaInfoCircle } from 'react-icons/fa'
-import axios from 'axios'
+'use client';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Header } from '../../components/landing-page';
+import Link from 'next/link';
+import { FaInfoCircle } from 'react-icons/fa';
+import axios from 'axios';
 
+// Internship Card Component
 const InternshipCard = ({ internship, isHovered, onHover, onLeave, onMoreInfo }) => {
   const cardStyles = {
     position: 'relative',
@@ -78,47 +79,17 @@ const InternshipCard = ({ internship, isHovered, onHover, onLeave, onMoreInfo })
   );
 };
 
-const Internship = () => {
-  const [internships, setInternships] = useState([]);
+// Main Internship Component with server-side data fetching
+const Internship = ({ initialInternships, error }) => {
   const [hoveredInternship, setHoveredInternship] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const location = useSearchParams();
   const router = useRouter();
-  const searchParams = new URLSearchParams(location.toString());
-  const searchQuery = searchParams.get('search')?.toLowerCase() || '';
-
-  useEffect(() => {
-    const fetchInternships = async () => {
-      try {
-        const response = await axios.get('/api/internships'); // Updated endpoint
-        setInternships(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching internships:', err);
-        setError('Failed to load internships. Please try again later.');
-        setLoading(false);
-      }
-    };
-
-    fetchInternships();
-  }, []);
-
-  const filteredInternships = internships.filter((internship) =>
-    internship.title.toLowerCase().includes(searchQuery) ||
-    internship.description.toLowerCase().includes(searchQuery)
-  );
 
   const handleMoreInfo = (internshipId) => {
     router.push(`/internship/${internshipId}`);
   };
 
-  if (loading) {
-    return <div>Loading internships...</div>;
-  }
-
   if (error) {
-    return <div>{error}</div>;
+    return <div className="text-red-500">Error loading internships: {error}</div>;
   }
 
   return (
@@ -128,9 +99,9 @@ const Internship = () => {
       {/* All Internships Section */}
       <section>
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Internships</h2>
-        {filteredInternships.length > 0 ? (
+        {initialInternships.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-8">
-            {filteredInternships.map((internship) => (
+            {initialInternships.map((internship) => (
               <InternshipCard
                 key={internship.id}
                 internship={internship}
@@ -148,5 +119,19 @@ const Internship = () => {
     </div>
   );
 };
+
+// Server-Side Function to Fetch Data
+export async function getServerSideProps() {
+  const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  try {
+    const response = await axios.get(`${baseURL}/api/internships`);
+    return {
+      props: { initialInternships: response.data },
+    };
+  } catch (error) {
+    console.error('Error fetching internships:', error);
+    return { props: { initialInternships: [], error: 'Failed to load internships' } };
+  }
+}
 
 export default Internship;

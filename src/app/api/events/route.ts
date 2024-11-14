@@ -10,7 +10,7 @@ let events = [
     price: 'Free',
     
     description: 'Learn the basics of web development in this hands-on workshop.',
-    imageUrl: '/https://www.rrce.org/blog/wp-content/uploads/2022/11/Artifical-Intelligence.-Machine-Learning-at-RRCE.png',
+    imageUrl: 'https://www.rrce.org/blog/wp-content/uploads/2022/11/Artifical-Intelligence.-Machine-Learning-at-RRCE.png',
     highlights: ['HTML', 'CSS', 'JavaScript basics']
   },
   {
@@ -20,7 +20,7 @@ let events = [
     duration: '1 day',
     price: 'Rs99',
     description: 'Explore the latest trends in data science and machine learning.',
-    imageUrl: '/https://media.geeksforgeeks.org/wp-content/uploads/20231205165904/web-development-image.webp',
+    imageUrl: 'https://media.geeksforgeeks.org/wp-content/uploads/20231205165904/web-development-image.webp',
     highlights: ['AI/ML', 'Big Data', 'Data Visualization']
   }
 ];

@@ -8,7 +8,8 @@ import { Header } from '../../components/landing-page'
 
 const Internships = () => {
   const [internships, setInternships] = useState([])
-  const [hoveredInternship, setHoveredInternship] = useState(null)
+  const [hoveredPopularInternship, setHoveredPopularInternship] = useState(null)
+  const [hoveredAllInternship, setHoveredAllInternship] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   const searchParams = useSearchParams()
@@ -36,42 +37,59 @@ const Internships = () => {
     }
   }
 
+  const popularInternships = internships.slice(0, 2)
+
   const handleMoreInfoClick = (internshipId) => {
     router.push(`/internship/${internshipId}`)
   }
 
-  const InternshipCard = ({ internship, isHovered, setHovered }) => (
+  const cardStyles = {
+    position: "relative",
+    width: "100%",
+    paddingTop: "70%",
+    borderRadius: "8px",
+    overflow: "hidden",
+    transition: "transform 0.3s ease-in-out",
+    cursor: "pointer",
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+    border: "2px solid #3b82f6",
+    margin: "8px"
+  }
+
+  const imageStyles = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  }
+
+  const hoveredCardOverlay = {
+    position: "absolute",
+    inset: 0,
+    padding: "16px",
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    opacity: 1,
+    zIndex: 10,
+    transition: "opacity 0.3s ease-in-out",
+    borderRadius: "8px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+  }
+
+  const InternshipCard = ({ internship, isHovered, setHovered, isPopular }) => (
     <div
       key={internship.id}
-      style={{
-        position: "relative",
-        width: "100%",
-        paddingTop: "70%",
-        borderRadius: "8px",
-        overflow: "hidden",
-        transition: "transform 0.3s ease-in-out",
-        cursor: "pointer",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-        border: "2px solid #3b82f6",
-        margin: "8px",
-        minWidth: "250px"
-      }}
+      style={isPopular ? cardStyles : { ...cardStyles, minWidth: "250px" }}
       onMouseEnter={() => setHovered(internship.id)}
       onMouseLeave={() => setHovered(null)}
       className="transform transition duration-300 hover:scale-105"
     >
-      <img 
-        src={internship.imageUrl} 
-        alt={internship.title} 
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }} 
-      />
+      <img src={internship.imageUrl} alt={internship.title} style={imageStyles} />
       <div
         style={{
           position: "absolute",
@@ -88,21 +106,7 @@ const Internships = () => {
         <p className="font-bold text-sm mt-1">{internship.stipend}</p>
       </div>
       {isHovered === internship.id && (
-        <div style={{
-          position: "absolute",
-          inset: 0,
-          padding: "16px",
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          opacity: 1,
-          zIndex: 10,
-          transition: "opacity 0.3s ease-in-out",
-          borderRadius: "8px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-        }}>
+        <div style={hoveredCardOverlay}>
           <h4 className="font-semibold text-sm">{internship.title}</h4>
           <p className="text-xs mt-2">{internship.company} · {internship.duration}</p>
           <p className="text-xs mt-2">{internship.description}</p>
@@ -156,7 +160,23 @@ const Internships = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100 px-4">
       <Header />
-      
+
+      {/* Popular Internships Section */}
+      <section className="mb-12">
+        <h2 className="text-4xl font-bold mb-8 text-center text-white">Popular Internships</h2>
+        <div className="md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {popularInternships.map((internship) => (
+            <InternshipCard
+              key={internship.id}
+              internship={internship}
+              isHovered={hoveredPopularInternship}
+              setHovered={setHoveredPopularInternship}
+              isPopular={true}
+            />
+          ))}
+        </div>
+      </section>
+
       {/* All Internships Section */}
       <section>
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Internships</h2>
@@ -166,8 +186,9 @@ const Internships = () => {
               <InternshipCard
                 key={internship.id}
                 internship={internship}
-                isHovered={hoveredInternship}
-                setHovered={setHoveredInternship}
+                isHovered={hoveredAllInternship}
+                setHovered={setHoveredAllInternship}
+                isPopular={false}
               />
             ))}
           </div>

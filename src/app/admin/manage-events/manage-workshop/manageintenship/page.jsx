@@ -52,7 +52,7 @@ export default function ManageInternships() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditingInternship({ ...editingInternship, [name]: value });
+    setEditingInternship((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e) => {
@@ -60,7 +60,7 @@ export default function ManageInternships() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setEditingInternship({ ...editingInternship, imageUrl: reader.result });
+        setEditingInternship((prev) => ({ ...prev, imageUrl: reader.result }));
       };
       reader.readAsDataURL(file);
     }
@@ -69,14 +69,14 @@ export default function ManageInternships() {
   const handleHighlightChange = (index, value) => {
     const newHighlights = [...editingInternship.highlights];
     newHighlights[index] = value;
-    setEditingInternship({ ...editingInternship, highlights: newHighlights });
+    setEditingInternship((prev) => ({ ...prev, highlights: newHighlights }));
   };
 
   const handleAddHighlight = () => {
-    setEditingInternship({
-      ...editingInternship,
-      highlights: [...(editingInternship.highlights || []), '']
-    });
+    setEditingInternship((prev) => ({
+      ...prev,
+      highlights: [...(prev.highlights || []), '']
+    }));
   };
 
   const handleAddInternship = () => {
@@ -229,45 +229,43 @@ export default function ManageInternships() {
                   name="image"
                   onChange={handleImageChange}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  accept="image/*"
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Highlights
                 </label>
-                {editingInternship.highlights && editingInternship.highlights.map((highlight, index) => (
-                  <div key={index} className="flex items-center mb-2">
-                    <FaCalendarAlt className="mr-2 text-blue-500" />
-                    <input
-                      type="text"
-                      value={highlight}
-                      onChange={(e) => handleHighlightChange(index, e.target.value)}
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                  </div>
+                {editingInternship.highlights.map((highlight, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    value={highlight}
+                    onChange={(e) => handleHighlightChange(index, e.target.value)}
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+                    placeholder="Highlight"
+                  />
                 ))}
                 <button
                   type="button"
                   onClick={handleAddHighlight}
-                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  className="text-blue-500 text-sm underline"
                 >
-                  <FaPlus className="inline mr-2" /> Add Highlight
+                  Add another highlight
                 </button>
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                  {editingInternship.id ? 'Update Internship' : 'Add Internship'}
-                </button>
-                <button
                   type="button"
                   onClick={() => setEditingInternship(null)}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
                 >
                   Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                >
+                  Save Internship
                 </button>
               </div>
             </form>

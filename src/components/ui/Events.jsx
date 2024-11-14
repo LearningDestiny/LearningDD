@@ -1,18 +1,16 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from "react";
-import { FaCalendarAlt } from "react-icons/fa";
-import { useRouter, useSearchParams } from "next/navigation";
-import PaymentHandlerButton from "../../components/PaymentHandlerButton";
-import axios from "axios";
+import React, { useState, useEffect } from "react"
+import { FaCalendarAlt } from "react-icons/fa"
+import { useRouter, useSearchParams } from "next/navigation"
+import PaymentHandlerButton from "../../components/PaymentHandlerButton"
 
 const Events = () => {
   const [events, setEvents] = useState([])
   const [hoveredPopularEvent, setHoveredPopularEvent] = useState(null)
   const [hoveredAllEvent, setHoveredAllEvent] = useState(null)
-  const location = useSearchParams()
+  const searchParams = useSearchParams()
   const router = useRouter()
-  const searchParams = new URLSearchParams(location.toString())
   const searchQuery = searchParams.get("search")?.toLowerCase() || ""
 
   useEffect(() => {
@@ -20,9 +18,16 @@ const Events = () => {
   }, [])
 
   const fetchEvents = async () => {
-    const response = await fetch('/api/events')
-    const data = await response.json()
-    setEvents(data)
+    try {
+      const response = await fetch('/api/events')
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const data = await response.json()
+      setEvents(data)
+    } catch (error) {
+      console.error("Failed to fetch events:", error)
+    }
   }
 
   const popularEvents = events.slice(0, 2)
@@ -99,7 +104,6 @@ const Events = () => {
           width: "100%",
           color: "white",
         }}
-      
       >
         <h4 className="font-semibold text-sm">{event.title}</h4>
         <p className="text-xs text-gray-300">{event.date}</p>
@@ -108,7 +112,6 @@ const Events = () => {
       {isHovered === event.id && (
         <div style={hoveredCardOverlay}>
           <h4 className="font-semibold text-sm">{event.title}</h4>
-         
           <p className="text-xs mt-2">{event.date} · {event.duration}</p>
           <p className="text-xs mt-2">{event.description}</p>
           <ul className="text-xs mt-2">

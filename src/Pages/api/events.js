@@ -30,14 +30,14 @@ export default async function handler(req, res) {
 
   try {
     switch (method) {
-      case 'GET': { // Fetch all events
+      case 'GET': {
         const events = await readEventsFile();
         res.status(200).json(events);
         break;
       }
 
-      case 'POST': { // Create a new event
-        const newEvent = { ...body, id: Date.now().toString() }; // Use timestamp as ID
+      case 'POST': {
+        const newEvent = { ...body, id: Date.now().toString() };
         const events = await readEventsFile();
         events.push(newEvent);
         await writeEventsFile(events);
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
         break;
       }
 
-      case 'PUT': { // Update an existing event by ID
+      case 'PUT': {
         if (!id) {
           res.status(400).json({ message: 'Event ID is required for updating' });
           return;
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
         break;
       }
 
-      case 'DELETE': { // Delete an event by ID
+      case 'DELETE': {
         if (!id) {
           res.status(400).json({ message: 'Event ID is required for deletion' });
           return;

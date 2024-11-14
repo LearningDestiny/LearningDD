@@ -1,5 +1,5 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header } from '../../components/landing-page';
 import Link from 'next/link';
@@ -79,10 +79,27 @@ const InternshipCard = ({ internship, isHovered, onHover, onLeave, onMoreInfo })
   );
 };
 
-// Main Internship Component with server-side data fetching
-const Internship = ({ initialInternships, error }) => {
+// Main Internship Component with client-side data fetching
+const Internship = () => {
+  const [internships, setInternships] = useState([]);
   const [hoveredInternship, setHoveredInternship] = useState(null);
+  const [error, setError] = useState(null);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'https://learningdestiny.in/';
+      try {
+        const response = await axios.get(`${baseURL}/api/internships`);
+        setInternships(response.data);
+      } catch (err) {
+        console.error('Error fetching internships:', err);
+        setError('Failed to load internships');
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleMoreInfo = (internshipId) => {
     router.push(`/internship/${internshipId}`);
@@ -99,9 +116,9 @@ const Internship = ({ initialInternships, error }) => {
       {/* All Internships Section */}
       <section>
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Internships</h2>
-        {initialInternships.length > 0 ? (
+        {internships.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-8">
-            {initialInternships.map((internship) => (
+            {internships.map((internship) => (
               <InternshipCard
                 key={internship.id}
                 internship={internship}
@@ -119,19 +136,5 @@ const Internship = ({ initialInternships, error }) => {
     </div>
   );
 };
-
-// Server-Side Function to Fetch Data
-export async function getServerSideProps() {
-  const baseURL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  try {
-    const response = await axios.get(`${baseURL}/api/internships`);
-    return {
-      props: { initialInternships: response.data },
-    };
-  } catch (error) {
-    console.error('Error fetching internships:', error);
-    return { props: { initialInternships: [], error: 'Failed to load internships' } };
-  }
-}
 
 export default Internship;

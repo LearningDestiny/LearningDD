@@ -8,8 +8,9 @@ let events = [
     date: '2024-03-15',
     duration: '2 hours',
     price: 'Free',
+    
     description: 'Learn the basics of web development in this hands-on workshop.',
-    imageUrl: '/placeholder.svg?height=300&width=400',
+    imageUrl: '/https://www.rrce.org/blog/wp-content/uploads/2022/11/Artifical-Intelligence.-Machine-Learning-at-RRCE.png',
     highlights: ['HTML', 'CSS', 'JavaScript basics']
   },
   {
@@ -17,9 +18,9 @@ let events = [
     title: 'Data Science Conference',
     date: '2024-04-20',
     duration: '1 day',
-    price: '$99',
+    price: 'Rs99',
     description: 'Explore the latest trends in data science and machine learning.',
-    imageUrl: '/placeholder.svg?height=300&width=400',
+    imageUrl: '/https://media.geeksforgeeks.org/wp-content/uploads/20231205165904/web-development-image.webp',
     highlights: ['AI/ML', 'Big Data', 'Data Visualization']
   }
 ];

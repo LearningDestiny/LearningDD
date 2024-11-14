@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 // In-memory store for events
 let events = [
@@ -24,7 +24,7 @@ let events = [
   }
 ];
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 
@@ -38,14 +38,14 @@ export async function GET(request) {
   return NextResponse.json(events);
 }
 
-export async function POST(request: { json: () => any; }) {
+export async function POST(request: NextRequest) {
   const newEvent = await request.json();
   newEvent.id = Date.now().toString();
   events.push(newEvent);
   return NextResponse.json(newEvent, { status: 201 });
 }
 
-export async function PUT(request) {
+export async function PUT(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   const updatedEvent = await request.json();
@@ -63,7 +63,7 @@ export async function PUT(request) {
   }
 }
 
-export async function DELETE(request: { url: string | URL; }) {
+export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 

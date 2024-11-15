@@ -1,21 +1,27 @@
 import { NextResponse } from 'next/server';
 
-// In-memory store for internships (replace with database in production)
+// In-memory store for internships
 let internships = [
   {
-    id: '1',
-    title: 'Software Development Intern',
-    company: 'Tech Solutions Inc.',
-    stipend: '$1000/month',
-    duration: '3 months',
-    description: 'Join our team to work on cutting-edge web applications.',
-    summaryDescription: 'Exciting opportunity in web development',
-    imageUrl: '/placeholder.svg?height=300&width=400',
-    highlights: ['React', 'Node.js', 'Agile development'],
-    location: 'San Francisco, CA',
-    organizer: 'Tech Solutions HR'
+    "id": 1,
+    "title": "Software Internship",
+    "company": "Learning Destiny",
+    "stipend": "5000Rs/month",
+    "imageUrl": "/SDIntern.png",
+    "description": "Join our team to work on exciting software projects and enhance your skills.",
+    "lastUpdated": "Last updated: September 2024",
+    "duration": "3 months"
   },
-  // Add more internship objects as needed
+  {
+    "id": 2,
+    "title": "Graphic Design Internship",
+    "company": "Learning Destiny",
+    "stipend": "4000Rs/month",
+    "imageUrl": "/GraphicIntern.png",
+    "description": "Work with our design team to create engaging visuals for various projects..!!",
+    "lastUpdated": "Last updated: July 2024",
+    "duration": "4 months"
+  }
 ];
 
 export async function GET(request) {

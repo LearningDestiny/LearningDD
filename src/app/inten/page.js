@@ -6,6 +6,21 @@ import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Header } from '../../components/landing-page'
 
+// Internship object structure:
+// {
+//   id: string,
+//   title: string,
+//   company: string,
+//   stipend: string,
+//   duration: string,
+//   description: string,
+//   summaryDescription: string,
+//   imageUrl: string,
+//   highlights: string[],
+//   location: string,
+//   organizer: string
+// }
+
 const Internships = () => {
   const [internships, setInternships] = useState([])
   const [hoveredPopularInternship, setHoveredPopularInternship] = useState(null)
@@ -109,7 +124,7 @@ const Internships = () => {
         <div style={hoveredCardOverlay}>
           <h4 className="font-semibold text-sm">{internship.title}</h4>
           <p className="text-xs mt-2">{internship.company} · {internship.duration}</p>
-          <p className="text-xs mt-2">{internship.description}</p>
+          <p className="text-xs mt-2">{internship.summaryDescription}</p>
           <ul className="text-xs mt-2">
             {internship.highlights && internship.highlights.map((highlight, index) => (
               <li key={index} className="flex items-center mt-0">
@@ -117,7 +132,7 @@ const Internships = () => {
               </li>
             ))}
           </ul>
-          <Link href={`/InternshipApplication`} passHref>
+          <Link href={`/InternshipApplication?id=${internship.id}`} passHref>
             <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded lg:py-2 sm:py-2">
               Apply Now
             </button>

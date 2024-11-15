@@ -1,31 +1,35 @@
-// Import necessary modules
 import { NextRequest, NextResponse } from 'next/server';
 
 // In-memory store for internships
 let internships = [
   {
     id: '1',
-    title: 'Software Internship',
-    company: 'Learning Destiny',
-    stipend: '5000Rs/month',
-    imageUrl: '/SDIntern.png',
-    description: 'Join our team to work on exciting software projects and enhance your skills.',
-    lastUpdated: 'Last updated: September 2024',
+    title: 'Software Development Intern',
+    company: 'Tech Solutions Inc.',
+    stipend: '$1000/month',
     duration: '3 months',
+    description: 'Join our team to work on cutting-edge web applications.',
+    summaryDescription: 'Exciting opportunity in web development',
+    imageUrl: '/placeholder.svg?height=300&width=400',
+    highlights: ['React', 'Node.js', 'Agile development'],
+    location: 'San Francisco, CA',
+    organizer: 'Tech Solutions HR'
   },
   {
     id: '2',
-    title: 'Graphic Design Internship',
-    company: 'Learning Destiny',
-    stipend: '4000Rs/month',
-    imageUrl: '/GraphicIntern.png',
-    description: 'Work with our design team to create engaging visuals for various projects.',
-    lastUpdated: 'Last updated: July 2024',
+    title: 'Data Science Intern',
+    company: 'Data Insights Co.',
+    stipend: '$1200/month',
     duration: '4 months',
+    description: 'Apply machine learning to solve real-world business problems.',
+    summaryDescription: 'Data science internship with focus on ML',
+    imageUrl: '/placeholder.svg?height=300&width=400',
+    highlights: ['Python', 'Machine Learning', 'Data Visualization'],
+    location: 'New York, NY',
+    organizer: 'Data Insights Recruiting'
   }
 ];
 
-// GET request handler for fetching all or a single internship by ID
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
@@ -40,7 +44,6 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(internships);
 }
 
-// POST request handler for adding a new internship
 export async function POST(request: NextRequest) {
   const newInternship = await request.json();
   newInternship.id = Date.now().toString();
@@ -48,7 +51,6 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(newInternship, { status: 201 });
 }
 
-// PUT request handler for updating an existing internship
 export async function PUT(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
@@ -67,7 +69,6 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-// DELETE request handler for deleting an internship
 export async function DELETE(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');

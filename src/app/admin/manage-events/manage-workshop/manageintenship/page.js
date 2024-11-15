@@ -3,7 +3,21 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaCalendarAlt, FaEdit, FaTrash, FaPlus, FaEye } from 'react-icons/fa';
-import axios from 'axios';
+
+// Internship object structure:
+// {
+//   id: string,
+//   title: string,
+//   company: string,
+//   stipend: string,
+//   duration: string,
+//   description: string,
+//   summaryDescription: string,
+//   imageUrl: string,
+//   highlights: string[],
+//   location: string,
+//   organizer: string
+// }
 
 export default function ManageInternships() {
   const [internships, setInternships] = useState([]);
@@ -16,8 +30,12 @@ export default function ManageInternships() {
 
   const fetchInternships = async () => {
     try {
-      const response = await axios.get('/api/internships');
-      setInternships(response.data);
+      const response = await fetch('/api/internships');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setInternships(data);
     } catch (error) {
       console.error('Error fetching internships:', error);
     }
@@ -29,13 +47,27 @@ export default function ManageInternships() {
 
   const handleUpdateInternship = async () => {
     try {
-      if (editingInternship.id) {
-        await axios.put(`/api/internships?id=${editingInternship.id}`, editingInternship);
-      } else {
-        await axios.post('/api/internships', editingInternship);
+      if (editingInternship) {
+        const url = editingInternship.id
+          ? `/api/internships?id=${editingInternship.id}`
+          : '/api/internships';
+        const method = editingInternship.id ? 'PUT' : 'POST';
+        
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(editingInternship),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        setEditingInternship(null);
+        fetchInternships();
       }
-      setEditingInternship(null);
-      fetchInternships();
     } catch (error) {
       console.error('Error saving internship:', error);
     }
@@ -43,7 +75,14 @@ export default function ManageInternships() {
 
   const handleDeleteInternship = async (id) => {
     try {
-      await axios.delete(`/api/internships?id=${id}`);
+      const response = await fetch(`/api/internships?id=${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       fetchInternships();
     } catch (error) {
       console.error('Error deleting internship:', error);
@@ -52,35 +91,42 @@ export default function ManageInternships() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditingInternship((prev) => ({ ...prev, [name]: value }));
+    setEditingInternship((prev) => prev ? ({ ...prev, [name]: value }) : null);
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setEditingInternship((prev) => ({ ...prev, imageUrl: reader.result }));
+        setEditingInternship((prev) => prev ? ({ ...prev, imageUrl: reader.result }) : null);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleHighlightChange = (index, value) => {
-    const newHighlights = [...editingInternship.highlights];
-    newHighlights[index] = value;
-    setEditingInternship((prev) => ({ ...prev, highlights: newHighlights }));
+    setEditingInternship((prev) => {
+      if (!prev) return null;
+      const newHighlights = [...prev.highlights];
+      newHighlights[index] = value;
+      return { ...prev, highlights: newHighlights };
+    });
   };
 
   const handleAddHighlight = () => {
-    setEditingInternship((prev) => ({
-      ...prev,
-      highlights: [...(prev.highlights || []), '']
-    }));
+    setEditingInternship((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        highlights: [...prev.highlights, '']
+      };
+    });
   };
 
   const handleAddInternship = () => {
     setEditingInternship({
+      id: '',
       title: '',
       company: '',
       stipend: '',
@@ -203,7 +249,7 @@ export default function ManageInternships() {
                   value={editingInternship.description}
                   onChange={handleInputChange}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  rows="3"
+                  rows={3}
                 ></textarea>
               </div>
               <div className="mb-4">
@@ -216,7 +262,7 @@ export default function ManageInternships() {
                   value={editingInternship.summaryDescription}
                   onChange={handleInputChange}
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  rows="2"
+                  rows={2}
                 ></textarea>
               </div>
               <div className="mb-4">
@@ -235,7 +281,7 @@ export default function ManageInternships() {
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="highlights">
                   Highlights
                 </label>
-                {editingInternship.highlights?.map((highlight, index) => (
+                {editingInternship.highlights.map((highlight, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <input
                       type="text"
@@ -247,7 +293,7 @@ export default function ManageInternships() {
                       onClick={() => {
                         const newHighlights = [...editingInternship.highlights];
                         newHighlights.splice(index, 1);
-                        setEditingInternship((prev) => ({ ...prev, highlights: newHighlights }));
+                        setEditingInternship({ ...editingInternship, highlights: newHighlights });
                       }}
                       className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                     >
@@ -261,6 +307,32 @@ export default function ManageInternships() {
                 >
                   Add Highlight
                 </button>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={editingInternship.location}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="organizer">
+                  Organizer
+                </label>
+                <input
+                  type="text"
+                  id="organizer"
+                  name="organizer"
+                  value={editingInternship.organizer}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
               </div>
               <div className="flex justify-end mt-4">
                 <button

@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-// In-memory store for internships
+// In-memory store for internships (replace with database in production)
 let internships = [
   {
     id: '1',
@@ -15,22 +15,10 @@ let internships = [
     location: 'San Francisco, CA',
     organizer: 'Tech Solutions HR'
   },
-  {
-    id: '2',
-    title: 'Data Science Intern',
-    company: 'Data Insights Co.',
-    stipend: '$1200/month',
-    duration: '4 months',
-    description: 'Apply machine learning to solve real-world business problems.',
-    summaryDescription: 'Data science internship with focus on ML',
-    imageUrl: '/placeholder.svg?height=300&width=400',
-    highlights: ['Python', 'Machine Learning', 'Data Visualization'],
-    location: 'New York, NY',
-    organizer: 'Data Insights Recruiting'
-  }
+  // Add more internship objects as needed
 ];
 
-export async function GET(request: NextRequest) {
+export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 
@@ -44,14 +32,14 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(internships);
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request) {
   const newInternship = await request.json();
   newInternship.id = Date.now().toString();
   internships.push(newInternship);
   return NextResponse.json(newInternship, { status: 201 });
 }
 
-export async function PUT(request: NextRequest) {
+export async function PUT(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   const updatedInternship = await request.json();
@@ -69,7 +57,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 

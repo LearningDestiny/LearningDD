@@ -4,29 +4,11 @@ import React, { useState, useEffect } from "react"
 import { FaBriefcase } from "react-icons/fa"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { Header } from '../../components/landing-page'
-
-// Internship object structure:
-// {
-//   id: string,
-//   title: string,
-//   company: string,
-//   stipend: string,
-//   duration: string,
-//   description: string,
-//   summaryDescription: string,
-//   imageUrl: string,
-//   highlights: string[],
-//   location: string,
-//   organizer: string
-// }
 
 const Internships = () => {
   const [internships, setInternships] = useState([])
   const [hoveredPopularInternship, setHoveredPopularInternship] = useState(null)
   const [hoveredAllInternship, setHoveredAllInternship] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
   const searchParams = useSearchParams()
   const router = useRouter()
   const searchQuery = searchParams.get("search")?.toLowerCase() || ""
@@ -36,7 +18,6 @@ const Internships = () => {
   }, [])
 
   const fetchInternships = async () => {
-    setIsLoading(true)
     try {
       const response = await fetch('/api/internships')
       if (!response.ok) {
@@ -46,17 +27,10 @@ const Internships = () => {
       setInternships(data)
     } catch (error) {
       console.error("Failed to fetch internships:", error)
-      setError("Failed to load internships. Please try again later.")
-    } finally {
-      setIsLoading(false)
     }
   }
 
   const popularInternships = internships.slice(0, 2)
-
-  const handleMoreInfoClick = (internshipId) => {
-    router.push(`/internship/${internshipId}`)
-  }
 
   const cardStyles = {
     position: "relative",
@@ -96,6 +70,10 @@ const Internships = () => {
     textAlign: "center",
   }
 
+  const handleMoreInfoClick = (internshipId) => {
+    router.push(`/internship/${internshipId}`)
+  }
+
   const InternshipCard = ({ internship, isHovered, setHovered, isPopular }) => (
     <div
       key={internship.id}
@@ -124,15 +102,15 @@ const Internships = () => {
         <div style={hoveredCardOverlay}>
           <h4 className="font-semibold text-sm">{internship.title}</h4>
           <p className="text-xs mt-2">{internship.company} · {internship.duration}</p>
-          <p className="text-xs mt-2">{internship.summaryDescription}</p>
+          <p className="text-xs mt-2">{internship.description}</p>
           <ul className="text-xs mt-2">
-            {internship.highlights && internship.highlights.map((highlight, index) => (
+            {internship.highlights.map((highlight, index) => (
               <li key={index} className="flex items-center mt-0">
                 <FaBriefcase className="mr-1 text-blue-500" /> {highlight}
               </li>
             ))}
           </ul>
-          <Link href={`/InternshipApplication?id=${internship.id}`} passHref>
+          <Link href={`/internship-application?id=${internship.id}`} passHref>
             <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded lg:py-2 sm:py-2">
               Apply Now
             </button>
@@ -148,34 +126,8 @@ const Internships = () => {
     </div>
   )
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        <Header />
-        <p className="text-xl">Loading internships...</p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        <Header />
-        <p className="text-xl text-red-500">{error}</p>
-        <button 
-          onClick={fetchInternships}
-          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        >
-          Try Again
-        </button>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100 px-4">
-      <Header />
-
       {/* Popular Internships Section */}
       <section className="mb-12">
         <h2 className="text-4xl font-bold mb-8 text-center text-white">Popular Internships</h2>
@@ -196,7 +148,7 @@ const Internships = () => {
       <section>
         <h2 className="text-4xl font-bold mb-8 text-center text-white">All Internships</h2>
         {internships.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {internships.map((internship) => (
               <InternshipCard
                 key={internship.id}

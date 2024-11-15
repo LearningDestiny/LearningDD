@@ -23,29 +23,31 @@ function generateSiteMap(posts) {
  `;
 }
 
-function SiteMap() {
-  // The XML sitemap is generated on the server
-}
-
-export async function getServerSideProps({ res }) {
+// Export the GET handler for sitemap generation
+export async function GET(req, res) {
   try {
     // Fetch data from your site's API
-    const request = await fetch(`${EXTERNAL_DATA_URL}/api/posts`);
-    const posts = await request.json();
+    const response = await fetch(`${EXTERNAL_DATA_URL}/api/posts`);
+    const posts = await response.json();
 
-    // Generate XML sitemap with dynamic data
+    // Generate the XML sitemap
     const sitemap = generateSiteMap(posts);
 
-    res.setHeader('Content-Type', 'text/xml');
-    res.write(sitemap);
-    res.end();
+    // Set the response headers and return the sitemap
+    return new Response(sitemap, {
+      headers: {
+        'Content-Type': 'application/xml',
+      },
+    });
   } catch (error) {
     console.error("Error generating sitemap:", error);
+
+    // Return an empty sitemap in case of failure
+    const fallbackSitemap = generateSiteMap([]);
+    return new Response(fallbackSitemap, {
+      headers: {
+        'Content-Type': 'application/xml',
+      },
+    });
   }
-
-  return {
-    props: {},
-  };
 }
-
-export default SiteMap;

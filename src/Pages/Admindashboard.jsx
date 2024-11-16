@@ -90,7 +90,7 @@ export default function AdminDashboard() {
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Manage Workshops</h2>
             <p className={styles.cardDescription}>Add or edit workshop details.</p>
-            <Link href="/admin/manage-events/manage-workshop" className={styles.cardButton}>
+            <Link href="/admin/manage-events/manage-workshops" className={styles.cardButton}>
               Go to Workshops
             </Link>
           </div>
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Manage Internships</h2>
             <p className={styles.cardDescription}>Control internship postings and information.</p>
-            <Link href="/admin/manage-events/manage-workshop/manageintenship" className={styles.cardButton}>
+            <Link href="/admin/manage-events/manage-workshops/manageintenship" className={styles.cardButton}>
               Go to Internships
             </Link>
 
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Manage courses</h2>
             <p className={styles.cardDescription}>Add or edit courses details.</p>
-            <Link href="/admin/manage-events/manage-workshop/manageintenship/managecourse" className={styles.cardButton}>
+            <Link href="/admin/manage-events/manage-workshops/manageintenship/managecourse" className={styles.cardButton}>
               Go to course
             </Link>
           </div>

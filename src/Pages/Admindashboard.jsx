@@ -106,7 +106,7 @@ export default function AdminDashboard() {
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Manage courses</h2>
             <p className={styles.cardDescription}>Add or edit courses details.</p>
-            <Link href="/admin/manage-events/manage-workshops/manageintenship/managecourse" className={styles.cardButton}>
+            <Link href="/admin/manage-events/manage-workshops/manageintenship/manage-courses" className={styles.cardButton}>
               Go to course
             </Link>
           </div>

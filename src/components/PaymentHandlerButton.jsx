@@ -1,4 +1,3 @@
-// PaymentHandlerButton.js
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -10,17 +9,20 @@ function PaymentHandlerButton({
   fullName,
   email,
   contact,
-  stream,         // Ensure you are passing stream and qualification
-  qualification,  // Ensure you are passing stream and qualification
+  stream, // Ensure you are passing stream and qualification
+  qualification, // Ensure you are passing stream and qualification
 }) {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
+  // Load Razorpay Script
   const loadScript = () => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
+    script.onload = () => console.log("Razorpay script loaded successfully.");
+    script.onerror = () => console.error("Failed to load Razorpay script.");
     document.body.appendChild(script);
   };
 
@@ -28,9 +30,8 @@ function PaymentHandlerButton({
     loadScript();
   }, []);
 
+  // Save data to Google Sheets
   const saveDataToGoogleSheets = async () => {
-    console.log("Sending data to API:", { fullName, email, contact, stream, qualification }); // Log data here
-
     try {
       const res = await fetch("/api/googleSheets", {
         method: "POST",
@@ -39,62 +40,83 @@ function PaymentHandlerButton({
           name: fullName,
           email,
           contact,
-          stream,         // Ensure stream is passed
-          qualification,  // Ensure qualification is passed
+          stream, // Pass stream
+          qualification, // Pass qualification
         }),
       });
+
       const result = await res.json();
+      console.log("Google Sheets Response:", result);
 
       if (result.success) {
         toast({
           title: "Data Saved",
           description: "Your data has been successfully saved to Google Sheets.",
         });
-        return true; // Return true if data is saved successfully
+        return true; // Data saved successfully
       } else {
         toast({
           title: "Data Save Failed",
           description: result.message || "An error occurred while saving data.",
           variant: "destructive",
         });
-        return false; // Return false if data saving failed
+        return false; // Data saving failed
       }
     } catch (error) {
       console.error("Error saving data to Google Sheets:", error);
       toast({
         title: "Network Error",
-        description: "A network error occurred while trying to save data.",
+        description: "A network error occurred while saving data.",
         variant: "destructive",
       });
-      return false; // Return false in case of network error
+      return false; // Network error
     }
   };
 
+  // Process Payment
   const processPayment = async (event) => {
     event.preventDefault();
     setLoading(true);
+
     try {
+      // Save data to Google Sheets
       const dataSaved = await saveDataToGoogleSheets();
       if (!dataSaved) {
         setLoading(false);
         return;
       }
 
+      // Create Razorpay Order
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: finalAmt, currency: "INR" }),
       });
-      const data = await res.json();
 
-      window.Razorpay.open({
-        key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      const data = await res.json();
+      console.log("Razorpay Order Response:", data);
+
+      // Open Razorpay Checkout
+      if (!window.Razorpay) {
+        console.error("Razorpay is not defined. Script might not be loaded.");
+        toast({
+          title: "Payment Error",
+          description: "Failed to initialize Razorpay. Please try again later.",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
+      const razorpay = new window.Razorpay({
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: finalAmt,
         currency: "INR",
         name: "Learning Destiny",
         description: "Final Amount",
         order_id: data.orderId,
         handler: async function (response) {
+          // Verify Payment
           const verificationData = await verifyPayment(
             response.razorpay_order_id,
             response.razorpay_payment_id,
@@ -123,6 +145,8 @@ function PaymentHandlerButton({
           color: "#FBA758",
         },
       });
+
+      razorpay.open();
     } catch (error) {
       console.error("Error:", error);
       toast({
@@ -135,6 +159,7 @@ function PaymentHandlerButton({
     }
   };
 
+  // Verify Payment
   const verifyPayment = async (orderCreationId, razorpayPaymentId, razorpaySignature) => {
     try {
       const res = await fetch("/api/verify", {

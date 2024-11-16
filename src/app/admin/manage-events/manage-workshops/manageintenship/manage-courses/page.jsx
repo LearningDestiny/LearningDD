@@ -7,6 +7,8 @@ import { FaPlayCircle, FaEdit, FaTrash, FaPlus, FaEye } from 'react-icons/fa';
 export default function ManageCourses() {
   const [courses, setCourses] = useState([]);
   const [editingCourse, setEditingCourse] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -14,6 +16,8 @@ export default function ManageCourses() {
   }, []);
 
   const fetchCourses = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
       const response = await fetch('/api/courses');
       if (!response.ok) {
@@ -23,6 +27,9 @@ export default function ManageCourses() {
       setCourses(data);
     } catch (error) {
       console.error('Error fetching courses:', error);
+      setError('Failed to load courses. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,6 +62,7 @@ export default function ManageCourses() {
       }
     } catch (error) {
       console.error('Error saving course:', error);
+      setError('Failed to save course. Please try again.');
     }
   };
 
@@ -71,6 +79,7 @@ export default function ManageCourses() {
       fetchCourses();
     } catch (error) {
       console.error('Error deleting course:', error);
+      setError('Failed to delete course. Please try again.');
     }
   };
 
@@ -114,6 +123,14 @@ export default function ManageCourses() {
       highlights: ['']
     });
   };
+
+  if (isLoading) {
+    return <div className="text-center py-10">Loading courses...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">

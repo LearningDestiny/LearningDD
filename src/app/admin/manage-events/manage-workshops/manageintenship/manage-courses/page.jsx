@@ -26,7 +26,6 @@ export default function ManageCourses() {
       const data = await response.json();
       setCourses(data);
     } catch (error) {
-      console.error('Error fetching courses:', error);
       setError('Failed to load courses. Please try again.');
     } finally {
       setIsLoading(false);
@@ -44,9 +43,9 @@ export default function ManageCourses() {
           ? `/api/courses?id=${editingCourse.id}`
           : '/api/courses';
         const method = editingCourse.id ? 'PUT' : 'POST';
-        
+
         const response = await fetch(url, {
-          method: method,
+          method,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -61,7 +60,6 @@ export default function ManageCourses() {
         fetchCourses();
       }
     } catch (error) {
-      console.error('Error saving course:', error);
       setError('Failed to save course. Please try again.');
     }
   };
@@ -78,14 +76,13 @@ export default function ManageCourses() {
 
       fetchCourses();
     } catch (error) {
-      console.error('Error deleting course:', error);
       setError('Failed to delete course. Please try again.');
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditingCourse((prev) => prev ? ({ ...prev, [name]: value }) : null);
+    setEditingCourse((prev) => (prev ? { ...prev, [name]: value } : null));
   };
 
   const handleHighlightChange = (index, value) => {
@@ -102,7 +99,7 @@ export default function ManageCourses() {
       if (!prev) return null;
       return {
         ...prev,
-        highlights: [...prev.highlights, '']
+        highlights: [...prev.highlights, ''],
       };
     });
   };
@@ -120,7 +117,7 @@ export default function ManageCourses() {
       duration: '',
       lectureCount: 0,
       description: '',
-      highlights: ['']
+      highlights: [''],
     });
   };
 
@@ -141,11 +138,15 @@ export default function ManageCourses() {
       >
         <FaPlus className="inline mr-2" /> Add New Course
       </button>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {courses.map(course => (
+        {courses.map((course) => (
           <div key={course.id} className="bg-white rounded-lg shadow-md p-6">
-            <img src={course.imageUrl} alt={course.title} className="w-full h-48 object-cover rounded-md mb-4" />
+            <img
+              src={course.imageUrl}
+              alt={course.title}
+              className="w-full h-48 object-cover rounded-md mb-4"
+            />
             <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
             <p className="text-gray-600 mb-2">{course.instructor}</p>
             <p className="text-gray-800 mb-2">{course.price}</p>
@@ -172,137 +173,80 @@ export default function ManageCourses() {
           </div>
         ))}
       </div>
+
       {editingCourse && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full" id="my-modal">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
           <div className="relative top-20 mx-auto p-5 border w-full max-w-xl shadow-lg rounded-md bg-white">
             <h3 className="text-lg font-semibold mb-4">
               {editingCourse.id ? 'Edit Course' : 'Add New Course'}
             </h3>
-            <form onSubmit={(e) => { e.preventDefault(); handleUpdateCourse(); }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleUpdateCourse();
+              }}
+            >
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
                   Title
                 </label>
                 <input
                   type="text"
-                  id="title"
                   name="title"
                   value={editingCourse.title}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow border rounded w-full py-2 px-3"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="instructor">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
                   Instructor
                 </label>
                 <input
                   type="text"
-                  id="instructor"
                   name="instructor"
                   value={editingCourse.instructor}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow border rounded w-full py-2 px-3"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
                   Price
                 </label>
                 <input
                   type="text"
-                  id="price"
                   name="price"
                   value={editingCourse.price}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow border rounded w-full py-2 px-3"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="duration">
-                  Duration
-                </label>
-                <input
-                  type="text"
-                  id="duration"
-                  name="duration"
-                  value={editingCourse.duration}
-                  onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
                   Description
                 </label>
                 <textarea
-                  id="description"
                   name="description"
                   value={editingCourse.description}
                   onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  rows={3}
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="imageUrl">
-                  Image URL
-                </label>
-                <input
-                  type="text"
-                  id="imageUrl"
-                  name="imageUrl"
-                  value={editingCourse.imageUrl}
-                  onChange={handleInputChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow border rounded w-full py-2 px-3"
+                  rows="4"
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="highlights">
-                  Highlights
-                </label>
-                {editingCourse.highlights.map((highlight, index) => (
-                  <div key={index} className="flex items-center space-x-2 mb-2">
-                    <input
-                      type="text"
-                      value={highlight}
-                      onChange={(e) => handleHighlightChange(index, e.target.value)}
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const newHighlights = [...editingCourse.highlights];
-                        newHighlights.splice(index, 1);
-                        setEditingCourse({ ...editingCourse, highlights: newHighlights });
-                      }}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
-                      X
-                    </button>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={handleAddHighlight}
-                  className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                  Add Highlight
-                </button>
-              </div>
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-end">
                 <button
                   type="button"
                   onClick={() => setEditingCourse(null)}
-                  className="mr-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                  className="bg-gray-400 text-white px-4 py-2 rounded mr-2"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  className="bg-green-500 text-white px-4 py-2 rounded"
                 >
-                  Save Course
+                  Save
                 </button>
               </div>
             </form>

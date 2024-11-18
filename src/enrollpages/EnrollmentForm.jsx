@@ -32,17 +32,9 @@ const EnrollmentForm = ({ course, onClose }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!name || !contactNumber || !stream || !qualification) {
-      setPopupMessage('Please fill out all the fields before enrolling.');
-      setShowPopup(true);
-      return;
-    }
-
+  // Function to save form data after payment
+  const saveFormData = async () => {
     const formData = { name, contactNumber, stream, qualification };
-    console.log('FormData before sending:', formData); // Debug log for formData
 
     try {
       const res = await fetch('/api/googleSheets', {
@@ -53,7 +45,8 @@ const EnrollmentForm = ({ course, onClose }) => {
       const result = await res.json();
       if (result.success) {
         setIsSubmitted(true);
-        setShowPayment(true); // Enable payment button after successful submission
+        setPopupMessage('Enrollment successful! Payment and form details saved.');
+        setShowPopup(true);
       } else {
         setPopupMessage('Error saving data. Please try again.');
         setShowPopup(true);
@@ -63,6 +56,19 @@ const EnrollmentForm = ({ course, onClose }) => {
       setPopupMessage('Error saving data. Please try again.');
       setShowPopup(true);
     }
+  };
+
+  // Handle form submission (before payment)
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    if (!name || !contactNumber || !stream || !qualification) {
+      setPopupMessage('Please fill out all the fields before enrolling.');
+      setShowPopup(true);
+      return;
+    }
+
+    setShowPayment(true); // Enable payment button after form validation
   };
 
   const priceFloat = parseFloat(course.price.replace(/[^0-9.-]+/g, '').replace(',', ''));
@@ -78,7 +84,7 @@ const EnrollmentForm = ({ course, onClose }) => {
         ) : (
           <>
             <h2 className="text-2xl font-bold mb-4">Enroll in {course.title}</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleFormSubmit}>
               <div className="mb-4">
                 <label className="block text-lg font-medium mb-2" htmlFor="name">
                   Name
@@ -146,10 +152,14 @@ const EnrollmentForm = ({ course, onClose }) => {
           </>
         )}
 
-        {/* Render PaymentHandlerButton after form submission */}
         {showPayment && (
           <div className="mt-4">
-            <PaymentHandlerButton finalAmt={priceFloat} fullName={name} contact={contactNumber} />
+            <PaymentHandlerButton
+              finalAmt={priceFloat}
+              fullName={name}
+              contact={contactNumber}
+              onPaymentSuccess={saveFormData} // Call saveFormData after successful payment
+            />
           </div>
         )}
       </div>

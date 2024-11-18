@@ -1524,10 +1524,6 @@ export async function PUT(request) {
   const id = searchParams.get('id');
   const updatedCourse = await request.json();
 
-  if (!id) {
-    return NextResponse.json({ message: 'Course ID is required for updating' }, { status: 400 });
-  }
-
   const index = courses.findIndex(course => course.id === id);
   if (index !== -1) {
     courses[index] = { ...courses[index], ...updatedCourse };
@@ -1540,10 +1536,6 @@ export async function PUT(request) {
 export async function DELETE(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
-
-  if (!id) {
-    return NextResponse.json({ message: 'Course ID is required for deletion' }, { status: 400 });
-  }
 
   const initialLength = courses.length;
   courses = courses.filter(course => course.id !== id);

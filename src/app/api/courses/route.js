@@ -1499,16 +1499,23 @@ let courses = [
 ];
 
 export async function GET(request) {
+  console.log('GET request received');
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 
   if (id) {
-    const course = courses.find(c => c.id === id);
-    return course 
-      ? NextResponse.json(course)
-      : NextResponse.json({ message: 'Course not found' }, { status: 404 });
+    console.log(`Searching for course with id: ${id}`);
+    const course = courses.find(c => c.id.toString() === id);
+    if (course) {
+      console.log('Course found:', course);
+      return NextResponse.json(course);
+    } else {
+      console.log('Course not found');
+      return NextResponse.json({ message: 'Course not found' }, { status: 404 });
+    }
   }
 
+  console.log('Returning all courses');
   return NextResponse.json(courses);
 }
 
@@ -1524,7 +1531,11 @@ export async function PUT(request) {
   const id = searchParams.get('id');
   const updatedCourse = await request.json();
 
-  const index = courses.findIndex(course => course.id === id);
+  if (!id) {
+    return NextResponse.json({ message: 'Course ID is required for updating' }, { status: 400 });
+  }
+
+  const index = courses.findIndex(course => course.id.toString() === id);
   if (index !== -1) {
     courses[index] = { ...courses[index], ...updatedCourse };
     return NextResponse.json(courses[index]);
@@ -1537,8 +1548,12 @@ export async function DELETE(request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 
+  if (!id) {
+    return NextResponse.json({ message: 'Course ID is required for deletion' }, { status: 400 });
+  }
+
   const initialLength = courses.length;
-  courses = courses.filter(course => course.id !== id);
+  courses = courses.filter(course => course.id.toString() !== id);
 
   if (courses.length !== initialLength) {
     return NextResponse.json({ message: 'Course deleted successfully' });

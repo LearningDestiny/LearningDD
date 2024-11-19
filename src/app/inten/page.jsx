@@ -114,7 +114,7 @@ const Internships = () => {
               </li>
             ))}
           </ul>
-          <Link href={`/internship-application?id=${internship.id}`} passHref>
+          <Link href={`/InternshipApplication?id=${internship.id}`} passHref>
             <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded lg:py-2 sm:py-2">
               Apply Now
             </button>

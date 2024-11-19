@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react"
 import { FaPlayCircle } from "react-icons/fa"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { Header } from '../../components/landing-page'
-import EnrollmentForm from "../../components/EnrollmentForm"
+import { Header } from '../src/components/landing-page'
+import EnrollmentForm from "../src/enrollpages/EnrollmentForm"
 
 export default function Courses() {
   const [courses, setCourses] = useState([])

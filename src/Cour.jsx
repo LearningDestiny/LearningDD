@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react"
 import { FaPlayCircle } from "react-icons/fa"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { Header } from '../src/components/landing-page'
+//import { Header } from '../../components/landing-page'
 import EnrollmentForm from "../src/enrollpages/EnrollmentForm"
 
 export default function Courses() {
@@ -111,7 +111,7 @@ export default function Courses() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        <Header />
+      
         <p className="text-xl">Loading courses...</p>
       </div>
     )
@@ -120,7 +120,7 @@ export default function Courses() {
   if (error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        <Header />
+        
         <p className="text-xl text-red-500">{error}</p>
         <button 
           onClick={fetchCourses}
@@ -134,7 +134,7 @@ export default function Courses() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-indigo-900 to-gray-900 text-gray-100">
-      <Header />
+      
       <div className="container mx-auto flex-grow py-12 px-4 md:px-8">
         {/* Popular Courses Section */}
         <section className="mb-12">

@@ -4,10 +4,9 @@ import React, { useState, useEffect } from "react"
 import { FaPlayCircle } from "react-icons/fa"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
-//import { Header } from '../src/components/landing-page'
 import EnrollmentForm from "../src/enrollpages/EnrollmentForm"
 
-const courses = () => {
+const Courses = () => {
   const [courses, setCourses] = useState([])
   const [hoveredPopularCourse, setHoveredPopularCourse] = useState(null)
   const [hoveredAllCourse, setHoveredAllCourse] = useState(null)
@@ -44,9 +43,8 @@ const courses = () => {
   const popularCourses = courses.slice(0, 4)
 
   const handleMoreInfoClick = (courseId) => {
-    router.push(`/course/${courseId}`)
+    router.push(`/enroll/${courseId}`)
   }
-
   const handleEnrollClick = (course) => {
     setSelectedCourse(course)
     setIsFormOpen(true)
@@ -106,12 +104,9 @@ const courses = () => {
       )}
     </div>
   )
-
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        
         <p className="text-xl">Loading courses...</p>
       </div>
     )
@@ -120,7 +115,6 @@ const courses = () => {
   if (error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        
         <p className="text-xl text-red-500">{error}</p>
         <button 
           onClick={fetchCourses}
@@ -134,7 +128,6 @@ const courses = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 via-indigo-900 to-gray-900 text-gray-100">
-      
       <div className="container mx-auto flex-grow py-12 px-4 md:px-8">
         {/* Popular Courses Section */}
         <section className="mb-12">
@@ -188,3 +181,5 @@ const courses = () => {
     </div>
   )
 }
+
+export default Courses

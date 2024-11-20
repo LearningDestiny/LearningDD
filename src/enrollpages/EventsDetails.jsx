@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { events } from '../../src/Data';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaStar } from 'react-icons/fa';
-import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 const EventDetails = ({ id }) => {
   const [event, setEvent] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const eventId = Number(id);
@@ -20,38 +20,42 @@ const EventDetails = ({ id }) => {
     return <div className="text-center text-white text-2xl mt-10">Loading event details...</div>;
   }
 
+  const handleRegisterNow = () => {
+    router.push(`/eventform?id=${event.id}`);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 via-indigo-900 to-gray-900 text-gray-100">
       <div className="container mx-auto py-12 px-6 flex-grow">
         {/* Event Header */}
-        <div className="flex flex-col  items-center md:items-start md:justify-start text-center md:text-left border-b border-gray-700 pb-8 space-y-8 md:space-y-0">
+        <div className="flex flex-col items-center md:items-start md:justify-start text-center md:text-left border-b border-gray-700 pb-8 space-y-8 md:space-y-0">
           <div className="md:w-1/3 w-full flex justify-center md:justify-start">
             <img
               src={event.imageUrl}
               alt={event.title}
               className="rounded-lg shadow-lg object-cover"
-              style={{  width: '100%', maxWidth: '450px' }}
+              style={{ width: '100%', maxWidth: '450px' }}
             />
           </div>
           <div className="md:ml-8 w-full md:w-2/3 text-center md:text-left">
             <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-white">{event.title}</h2>
             <p className="mb-4 text-base md:text-lg text-gray-300">{event.description}</p>
-            <div className="flex items-center  md:justify-start mb-2 text-gray-300">
+            <div className="flex items-center md:justify-start mb-2 text-gray-300">
               <FaCalendarAlt className="mr-2" />
               <p>{event.date}</p>
             </div>
-            <div className="flex   md:justify-start mb-2 text-gray-300">
+            <div className="flex md:justify-start mb-2 text-gray-300">
               <FaMapMarkerAlt className="mr-2" />
               <p>{event.location}</p>
             </div>
-            <div className="flex  md:justify-start mb-2 text-gray-300">
+            <div className="flex md:justify-start mb-2 text-gray-300">
               <FaClock className="mr-2" />
               <p>{event.duration}</p>
             </div>
             <p className="text-lg text-gray-300"><strong>Organizer:</strong> {event.organizer}</p>
             {event.rating && (
-              <div className="flex items-center  md:justify-start mt-2">
-                <div className="flex ">
+              <div className="flex items-center md:justify-start mt-2">
+                <div className="flex">
                   {[...Array(5)].map((_, index) => (
                     <FaStar key={index} className={index < Math.floor(event.rating) ? "text-yellow-400" : "text-gray-400"} />
                   ))}
@@ -62,7 +66,7 @@ const EventDetails = ({ id }) => {
             <p className="font-bold mt-6 text-2xl md:text-3xl text-indigo-400">{event.price}</p>
             <button
               className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105"
-              onClick={() => {/* Implement registration logic */}}
+              onClick={handleRegisterNow}
             >
               Register Now
             </button>
@@ -94,7 +98,7 @@ const EventDetails = ({ id }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default EventDetails;

@@ -38,6 +38,8 @@ const EnrollmentForm = ({ course, onClose }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if all fields are filled
     if (Object.values(formData).some((value) => !value)) {
       setPopupMessage('Please fill out all the fields before enrolling.');
       setShowPopup(true);
@@ -45,14 +47,15 @@ const EnrollmentForm = ({ course, onClose }) => {
     }
 
     try {
-      // Save data to Google Sheets
-      const res = await fetch('/api/googleSheets', {
+      // Save data to Google Sheets (adjusted API path)
+      const res = await fetch('/api/googleSheet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       const result = await res.json();
+
       if (result.success) {
         // Show payment button after saving data
         setShowPayment(true);

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState } from 'react';
 import { Button } from "../../components/ui/button";
@@ -50,24 +50,45 @@ const InternshipApplication = () => {
     });
 
     try {
-      const response = await fetch('/api/uploadToDrive', {
+      // Step 1: Submit data to Google Sheets first
+      const googleSheetsResponse = await fetch('/api/googleSheets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          coverLetter: formData.coverLetter,
+        }),
+      });
+
+      if (!googleSheetsResponse.ok) {
+        const errorData = await googleSheetsResponse.json();
+        throw new Error(errorData.error || 'Failed to submit data to Google Sheets');
+      }
+
+      // Step 2: Upload to Google Drive
+      const driveResponse = await fetch('/api/uploadToDrive', {
         method: 'POST',
         body: formDataObj,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to submit application');
+      if (!driveResponse.ok) {
+        const errorData = await driveResponse.json();
+        throw new Error(errorData.error || 'Failed to upload resume to Drive');
       }
 
-      const data = await response.json();
+      const driveData = await driveResponse.json();
+      console.log('File ID:', driveData.fileId);
 
       toast({
         title: "Success",
         description: "Application submitted successfully!",
       });
-      console.log('File ID:', data.fileId);
 
+      // Reset form data after successful submission
       setFormData({
         fullName: '',
         email: '',

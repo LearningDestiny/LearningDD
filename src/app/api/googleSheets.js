@@ -1,59 +1,43 @@
-import { NextResponse } from 'next/server';
+import { google } from 'googleapis';
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
+  if (req.method === 'POST') {
+    const { name, contactNumber, stream, qualification } = req.body;
 
-  const { name, contactNumber, stream, qualification } = req.body;
+    try {
+      const auth = new google.auth.GoogleAuth({
+        credentials: {
+          client_email: process.env.GOOGLE_CLIENT_EMAIL,
+          private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        },
+        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+      });
 
-  console.log("Received data:", { name, contactNumber, stream, qualification });
+      const sheets = google.sheets({ version: 'v4', auth });
+      const sheetId = process.env.GOOGLE_SHEET_ID;
 
-  if (!name || !contactNumber || !stream || !qualification) {
-    return res.status(400).json({ success: false, message: "Missing required fields" });
-  }
+      const request = {
+        spreadsheetId: sheetId,
+        range: 'Sheet1!A2:D',
+        valueInputOption: 'RAW',
+        insertDataOption: 'INSERT_ROWS',
+        resource: {
+          values: [[name, contactNumber, stream, qualification]],
+        },
+      };
 
-  try {
-    const { google } = await import('googleapis');
+      const response = await sheets.spreadsheets.values.append(request);
 
-    console.log("Initializing Google Auth...");
-    const auth = new google.auth.GoogleAuth({
-      credentials: {
-        type: process.env.GOOGLE_TYPE,
-        project_id: process.env.GOOGLE_PROJECT_ID,
-        private_key_id: process.env.GOOGLE_PRIVATE_KEY_ID,
-        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-        client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        client_id: process.env.GOOGLE_CLIENT_ID,
-      },
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-    });
-
-    console.log("Creating Google Sheets instance...");
-    const sheets = google.sheets({ version: "v4", auth });
-    const spreadsheetId = "1Ofv_aqtrPPquN9RqnvsLuhEmCRAf9gdFOo96aYBiMZE";
-
-    console.log("Attempting to save data to Google Sheets...");
-    const result = await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range: "Sheet1!A:D",
-      valueInputOption: "USER_ENTERED",
-      requestBody: {
-        values: [[name, contactNumber, stream, qualification]],
-      },
-    });
-
-    console.log("Data saved successfully:", result.data);
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Full error object:", error);
-    console.error("Error saving data to Google Sheets:", error.message);
-    console.error("Error stack:", error.stack);
-    return NextResponse.json({ 
-      success: false, 
-      message: "Failed to save data", 
-      error: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
-    }, { status: 500 });
+      if (response.status === 200) {
+        res.status(200).json({ success: true });
+      } else {
+        throw new Error('Failed to write to Google Sheets');
+      }
+    } catch (error) {
+      console.error('Error interacting with Google Sheets:', error);
+      res.status(500).json({ success: false, message: 'Error saving data to Google Sheets' });
+    }
+  } else {
+    res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 }

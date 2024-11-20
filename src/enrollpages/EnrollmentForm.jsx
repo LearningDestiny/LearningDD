@@ -8,6 +8,7 @@ import { useToast } from '../hooks/use-toast';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
+
 // Popup Component
 const Popup = ({ message, onClose }) => (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -27,7 +28,6 @@ const EnrollmentForm = ({ course, onClose }) => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const { toast } = useToast();
 
@@ -36,28 +36,31 @@ const EnrollmentForm = ({ course, onClose }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (Object.values(formData).some((value) => !value)) {
       setPopupMessage('Please fill out all the fields before enrolling.');
       setShowPopup(true);
       return;
     }
-    setShowPayment(true);
-  };
 
-  const handlePaymentSuccess = async () => {
     try {
+      // Save data to Google Sheets
       const res = await fetch('/api/googleSheets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
+
       const result = await res.json();
       if (result.success) {
-        setIsSubmitted(true);
-        setPopupMessage('Enrollment successful! Payment and form details saved.');
-        setShowPopup(true);
+        // Show payment button after saving data
+        setShowPayment(true);
+        toast({
+          title: 'Data Saved',
+          description: 'Your details have been saved. Please proceed with the payment.',
+          variant: 'success',
+        });
       } else {
         throw new Error('Failed to save data');
       }
@@ -69,6 +72,11 @@ const EnrollmentForm = ({ course, onClose }) => {
         variant: 'destructive',
       });
     }
+  };
+
+  const handlePaymentSuccess = () => {
+    setIsSubmitted(true);
+    setPopupMessage('Enrollment successful! Payment has been processed.');
   };
 
   const priceFloat = parseFloat(course.price.replace(/[^0-9.-]+/g, '').replace(',', ''));
@@ -122,7 +130,7 @@ const EnrollmentForm = ({ course, onClose }) => {
           </div>
         )}
       </div>
-      {showPopup && <Popup message={popupMessage} onClose={() => setShowPopup(false)} />}
+      {popupMessage && <Popup message={popupMessage} onClose={() => setPopupMessage('')} />}
     </div>
   );
 };

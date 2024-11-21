@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- Sitemap generated and refined for https://learningdestiny.in -->
+
+<url>
+  <loc>https://learningdestiny.in/</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/landing-page</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/courses</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/about-us</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/events</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/workshops</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/internships</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/sign-in</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/login</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/terms</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/privacy-policy</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/shipping-policy</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://learningdestiny.in/cancellation-policy</loc>
+  <lastmod>2024-11-21T12:49:48+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+</urlset>

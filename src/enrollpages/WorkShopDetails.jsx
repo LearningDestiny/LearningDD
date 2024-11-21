@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
-import EnrollmentForm from '../enrollpages/EnrollmentForm';
-import { workshops } from '../../src/Data'; // Make sure this path is correct
+import WorkshopForm from '../enrollpages/WorkshopForm'; // Make sure this path is correct
+import { workshops } from '../../src/Data'; // Adjust path if necessary
 
 const WorkshopDetails = ({ id }) => {
   const [workshop, setWorkshop] = useState(null);
@@ -11,7 +11,7 @@ const WorkshopDetails = ({ id }) => {
   useEffect(() => {
     const fetchWorkshop = () => {
       const workshopId = Number(id);
-      const foundWorkshop = workshops.find(w => w.id === workshopId);
+      const foundWorkshop = workshops.find((w) => w.id === workshopId);
       if (foundWorkshop) {
         setWorkshop(foundWorkshop);
       } else {
@@ -22,8 +22,8 @@ const WorkshopDetails = ({ id }) => {
     fetchWorkshop();
   }, [id]);
 
-  const handleEnrollClick = () => setFormVisible(true);
-  const handleCloseForm = () => setFormVisible(false);
+  const handleEnrollClick = () => setFormVisible(true); // Show the form
+  const handleCloseForm = () => setFormVisible(false); // Hide the form
 
   if (!workshop) {
     return <div className="text-center text-white text-2xl mt-10">Loading workshop details...</div>;
@@ -33,41 +33,51 @@ const WorkshopDetails = ({ id }) => {
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-gray-900 via-indigo-900 to-gray-900 text-gray-100">
       <div className="container mx-auto py-12 px-4 lg:px-8 flex-grow">
         {/* Workshop Header */}
-        <div className="flex flex-col   border-b border-gray-700 pb-8 space-y-6 md:space-y-0 md:space-x-8">
-        <div className="w-full md:w-1/4 flex justify-center md:justify-start">
-
+        <div className="flex flex-col border-b border-gray-700 pb-8 space-y-6 md:space-y-0 md:space-x-8">
+          <div className="w-full md:w-1/4 flex justify-center md:justify-start">
             <img
               src={workshop.imageUrl}
               alt={workshop.title}
-              className="rounded-lg shadow-lg "
-              style={{  width: '100%', maxWidth: '450px' }}
+              className="rounded-lg shadow-lg"
+              style={{ width: '100%', maxWidth: '450px' }}
             />
           </div>
           <div className="w-full md:w-2/4 flex-1 space-y-2">
             <h2 className="text-4xl md:text-5xl font-extrabold text-white">{workshop.title}</h2>
             <p className="text-lg text-gray-300">{workshop.description}</p>
-            <p className="text-lg text-gray-300"><strong>Instructor:</strong> {workshop.instructor}</p>
-            <p className="text-lg text-gray-300"><strong>Duration:</strong> {workshop.duration}</p>
-            {workshop.lectureCount && <p className="text-lg text-gray-300"><strong>Lectures:</strong> {workshop.lectureCount}</p>}
+            <p className="text-lg text-gray-300">
+              <strong>Instructor:</strong> {workshop.instructor}
+            </p>
+            <p className="text-lg text-gray-300">
+              <strong>Duration:</strong> {workshop.duration}
+            </p>
+            {workshop.lectureCount && (
+              <p className="text-lg text-gray-300">
+                <strong>Lectures:</strong> {workshop.lectureCount}
+              </p>
+            )}
             {workshop.rating && (
-              <div className="flex  mt-2">
-                <div className="flex ">
+              <div className="flex mt-2">
+                <div className="flex">
                   {[...Array(5)].map((_, index) => (
-                    <FaStar key={index} className={index < Math.floor(workshop.rating) ? "text-yellow-400" : "text-gray-400"} />
+                    <FaStar
+                      key={index}
+                      className={index < Math.floor(workshop.rating) ? 'text-yellow-400' : 'text-gray-400'}
+                    />
                   ))}
                 </div>
-                <span className="ml-2 text-gray-300">{workshop.rating} ({workshop.ratingCount} ratings)</span>
+                <span className="ml-2 text-gray-300">
+                  {workshop.rating} ({workshop.ratingCount} ratings)
+                </span>
               </div>
             )}
             <p className="font-bold text-2xl md:text-3xl text-indigo-400">{workshop.price}</p>
-            <div className="flex justify-start">
-              <button
-                className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105"
-                onClick={handleEnrollClick}
-              >
-                Enroll Now
-              </button>
-            </div>
+            <button
+              className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-400 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105 focus:outline-none"
+              onClick={handleEnrollClick}
+            >
+              Enroll Now
+            </button>
           </div>
         </div>
 
@@ -108,7 +118,14 @@ const WorkshopDetails = ({ id }) => {
         )}
       </div>
 
-      {isFormVisible && <EnrollmentForm course={workshop} onClose={handleCloseForm} />}
+      {/* Modal: WorkshopForm */}
+      {isFormVisible && (
+        
+          
+            <WorkshopForm course={workshop} onClose={handleCloseForm} />
+          
+        
+      )}
     </div>
   );
 };

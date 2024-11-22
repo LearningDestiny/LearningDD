@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic'; // Import dynamic
 
 // Dynamically import EventForm to avoid potential import issues on Vercel
-const EventForm = dynamic(() => import('../../components/EventForm/Page'), { ssr: false });
+const EventForm = dynamic(() => import('../App/EventForm'), { ssr: false });
 
 const EventDetails = ({ id }) => {
   const [event, setEvent] = useState(null);

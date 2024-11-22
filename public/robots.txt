@@ -1,9 +1,4 @@
-# Universal Access Rules
 User-agent: *
 Allow: /
 
-# Host Directive (Optional, not widely supported by crawlers)
-Host: https://www.learningdestiny.in
-
-# Sitemap Location
 Sitemap: https://www.learningdestiny.in/sitemap.xml

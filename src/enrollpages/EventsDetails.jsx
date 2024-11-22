@@ -4,11 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { events } from '../../src/Data';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
-import EventForm from './EventForm'; // Import the EventForm component
+import EventForm from '../enrollpages/EventForm'; // Import EventForm component
 
 const EventDetails = ({ id }) => {
   const [event, setEvent] = useState(null);
-  const [isFormVisible, setIsFormVisible] = useState(false); // State to track form visibility
+  const [isFormVisible, setFormVisible] = useState(false); // State to toggle form visibility
   const router = useRouter();
 
   useEffect(() => {
@@ -19,7 +19,11 @@ const EventDetails = ({ id }) => {
   }, [id]);
 
   const handleRegisterNow = () => {
-    setIsFormVisible(true); // Show the event form when Register Now is clicked
+    setFormVisible(true); // Show the form
+  };
+
+  const handleCloseForm = () => {
+    setFormVisible(false); // Hide the form
   };
 
   if (!event) {
@@ -100,8 +104,14 @@ const EventDetails = ({ id }) => {
         </div>
       </div>
 
-      {/* Conditionally render EventForm if form is visible */}
-      {isFormVisible && <EventForm event={event} onClose={() => setIsFormVisible(false)} />}
+      {/* Modal: EventForm */}
+      {isFormVisible && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          
+            <EventForm event={event} onClose={handleCloseForm} />
+          </div>
+        
+      )}
     </div>
   );
 };

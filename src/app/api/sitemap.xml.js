@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 export default function handler(req, res) {
   // Define the static pages of your site
   const staticPages = [
-    { loc: 'https://learningdestiny.in', priority: 1.0 },  // Home page, higher priority
+    { loc: 'https://learningdestiny.in/', priority: 1.0 },
     { loc: 'https://learningdestiny.in/landing-page', priority: 0.8 },
     { loc: 'https://learningdestiny.in/courses', priority: 0.8 },
     { loc: 'https://learningdestiny.in/about-us', priority: 0.8 },
@@ -31,14 +31,14 @@ ${staticPages
     ({ loc, priority }) => `
   <url>
     <loc>${loc}</loc>
-    <lastmod>${lastmod}</lastmod>   <!-- Modify this if each page has different modification times -->
+    <lastmod>${lastmod}</lastmod>
     <priority>${priority}</priority>
   </url>`
   )
   .join('')}
 </urlset>`;
 
-  // Set headers for XML response
+  // Set headers
   res.setHeader('Content-Type', 'application/xml');
   res.status(200).send(sitemap);
 }

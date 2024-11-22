@@ -21,12 +21,12 @@ const EventForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/googleSheetss", { // Correct route
+      const response = await fetch("/api/googleSheetss", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-  
+
       const result = await response.json();
       if (result.success) {
         alert("Form submitted successfully!");
@@ -46,16 +46,16 @@ const EventForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-md"
+        className="bg-white shadow-md rounded px-6 py-4 w-full max-w-sm"
       >
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+        <h2 className="text-xl font-bold mb-4 text-gray-800 text-center">
           Event Registration
         </h2>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+        <div className="mb-3">
+          <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="name">
             Name
           </label>
           <input
@@ -64,12 +64,12 @@ const EventForm = () => {
             id="name"
             value={formData.name}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter your name"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="number">
+        <div className="mb-3">
+          <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="number">
             Phone Number
           </label>
           <input
@@ -78,12 +78,12 @@ const EventForm = () => {
             id="number"
             value={formData.number}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter your phone number"
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="qualification">
+        <div className="mb-3">
+          <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="qualification">
             Qualification
           </label>
           <input
@@ -92,12 +92,12 @@ const EventForm = () => {
             id="qualification"
             value={formData.qualification}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter your qualification"
           />
         </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="stream">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="stream">
             Stream
           </label>
           <input
@@ -106,7 +106,7 @@ const EventForm = () => {
             id="stream"
             value={formData.stream}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter your stream"
           />
         </div>

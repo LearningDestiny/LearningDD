@@ -4,7 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { events } from '../../src/Data';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
-import EventForm from "../App/EventForm/page"
+import dynamic from 'next/dynamic'; // Import dynamic
+
+// Dynamically import EventForm to avoid potential import issues on Vercel
+const EventForm = dynamic(() => import('../../components/EventForm/Page'), { ssr: false });
 
 const EventDetails = ({ id }) => {
   const [event, setEvent] = useState(null);
@@ -106,28 +109,28 @@ const EventDetails = ({ id }) => {
 
       {/* Event Form Popup */}
       {showForm && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-gray-900 p-6 rounded-lg shadow-lg relative w-11/12 max-w-md h-auto">
-      {/* Close Button */}
-      <button
-        onClick={handleCloseForm}
-        className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl font-bold"
-      >
-        ✖
-      </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-900 p-6 rounded-lg shadow-lg relative w-11/12 max-w-md h-auto">
+            {/* Close Button */}
+            <button
+              onClick={handleCloseForm}
+              className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl font-bold"
+            >
+              ✖
+            </button>
 
-      {/* Form Title */}
-      <h3 className="text-2xl font-bold mb-4 text-indigo-400 text-center">
-        Register for {event?.title}
-      </h3>
+            {/* Form Title */}
+            <h3 className="text-2xl font-bold mb-4 text-indigo-400 text-center">
+              Register for {event?.title}
+            </h3>
 
-      {/* Event Form */}
-      <div className="flex flex-col space-y-4">
-        <EventForm />
-      </div>
-    </div>
-  </div>
-)}
+            {/* Event Form */}
+            <div className="flex flex-col space-y-4">
+              <EventForm />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

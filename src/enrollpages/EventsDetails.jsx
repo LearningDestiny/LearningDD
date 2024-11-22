@@ -184,7 +184,7 @@ const EventDetails = ({ id }) => {
               className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105"
               onClick={handleRegisterNow}
             >
-              Register Now
+              Enroll Now
             </button>
           </div>
         </div>

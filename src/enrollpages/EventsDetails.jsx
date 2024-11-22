@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { events } from '../../src/Data';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
-import EventForm from '../enrollpages/EventForm'; // Import EventForm component
+import EventForm from './EventForm'; // Import EventForm component
 
 const EventDetails = ({ id }) => {
   const [event, setEvent] = useState(null);

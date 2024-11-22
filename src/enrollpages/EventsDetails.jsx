@@ -4,14 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { events } from '../../src/Data';
 import { FaCalendarAlt, FaMapMarkerAlt, FaClock, FaStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic'; // Import dynamic
-
-// Dynamically import EventForm to avoid potential import issues on Vercel
-const EventForm = dynamic(() => import('../App/EventForm'), { ssr: false });
+import EventForm from './EventForm'; // Import the EventForm component
 
 const EventDetails = ({ id }) => {
   const [event, setEvent] = useState(null);
-  const [showForm, setShowForm] = useState(false); // State to manage form visibility
+  const [isFormVisible, setIsFormVisible] = useState(false); // State to track form visibility
   const router = useRouter();
 
   useEffect(() => {
@@ -21,12 +18,8 @@ const EventDetails = ({ id }) => {
     else console.error(`Event with id ${eventId} not found`);
   }, [id]);
 
-  const handleRegisterClick = () => {
-    setShowForm(true); // Show the form as a popup on button click
-  };
-
-  const handleCloseForm = () => {
-    setShowForm(false); // Hide the form when the close button is clicked
+  const handleRegisterNow = () => {
+    setIsFormVisible(true); // Show the event form when Register Now is clicked
   };
 
   if (!event) {
@@ -74,8 +67,8 @@ const EventDetails = ({ id }) => {
             )}
             <p className="font-bold mt-6 text-2xl md:text-3xl text-indigo-400">{event.price}</p>
             <button
-              onClick={handleRegisterClick}
-              className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded"
+              className="mt-6 py-3 px-8 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition duration-300 shadow-lg transform hover:scale-105"
+              onClick={handleRegisterNow}
             >
               Register Now
             </button>
@@ -107,30 +100,8 @@ const EventDetails = ({ id }) => {
         </div>
       </div>
 
-      {/* Event Form Popup */}
-      {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-900 p-6 rounded-lg shadow-lg relative w-11/12 max-w-md h-auto">
-            {/* Close Button */}
-            <button
-              onClick={handleCloseForm}
-              className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl font-bold"
-            >
-              ✖
-            </button>
-
-            {/* Form Title */}
-            <h3 className="text-2xl font-bold mb-4 text-indigo-400 text-center">
-              Register for {event?.title}
-            </h3>
-
-            {/* Event Form */}
-            <div className="flex flex-col space-y-4">
-              <EventForm />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Conditionally render EventForm if form is visible */}
+      {isFormVisible && <EventForm event={event} onClose={() => setIsFormVisible(false)} />}
     </div>
   );
 };

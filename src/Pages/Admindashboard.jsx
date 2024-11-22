@@ -109,6 +109,33 @@ export default function AdminDashboard() {
             <Link href="/admin/manage-events/manage-workshops/manageintenship/manage-courses" className={styles.cardButton}>
               Go to course
             </Link>
+
+
+
+          </div><div className={styles.card}>
+            <h2 className={styles.cardTitle}>Manage courses</h2>
+            <p className={styles.cardDescription}>Add or edit courses details.</p>
+            <Link href="/admin/manage-events/manage-workshops/manageintenship/manage-courses" className={styles.cardButton}>
+              Go to Edit-EventDetail
+            </Link>
+          </div><div className={styles.card}>
+            <h2 className={styles.cardTitle}>Manage courses</h2>
+            <p className={styles.cardDescription}>Add or edit courses details.</p>
+            <Link href="/admin/manage-events/manage-workshops/manageintenship/manage-courses" className={styles.cardButton}>
+              Go to Edit-WorkshopDetail
+            </Link>
+          </div><div className={styles.card}>
+            <h2 className={styles.cardTitle}>Manage courses</h2>
+            <p className={styles.cardDescription}>Add or edit courses details.</p>
+            <Link href="/admin/manage-events/manage-workshops/manageintenship/manage-courses" className={styles.cardButton}>
+              Go to edit-intenshipDetail
+            </Link>
+          </div><div className={styles.card}>
+            <h2 className={styles.cardTitle}>Manage courses</h2>
+            <p className={styles.cardDescription}>Add or edit courses details.</p>
+            <Link href="/admin/manage-events/manage-workshops/manageintenship/manage-courses" className={styles.cardButton}>
+              Go to  edit-courseDetail
+            </Link>
           </div>
         </div>
       </div>

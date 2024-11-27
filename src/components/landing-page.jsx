@@ -155,7 +155,7 @@ export function Header() {
   href="https://learningdestiny.edumilestones.com/"
   onClick={toggleMobileMenu}
 >
-  About Us
+  Aboard
 </Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/Events">Events</Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/workshop">Workshops</Link>
@@ -202,7 +202,7 @@ export function Header() {
   href="https://learningdestiny.edumilestones.com/"
   onClick={toggleMobileMenu}
 >
-  About Us
+  Aboard
 </Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/Events" onClick={toggleMobileMenu}>Events</Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/workshop" onClick={toggleMobileMenu}>Workshops</Link>

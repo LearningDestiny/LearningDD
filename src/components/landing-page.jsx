@@ -150,7 +150,13 @@ export function Header() {
 
           <nav className="hidden md:flex items-center space-x-6">
             <Link className="text-sm font-medium hover:text-indigo-600" href="/Courses">Courses</Link>
-            <Link className="text-sm font-medium hover:text-indigo-600" href="/AboutUs">About Us</Link>
+            <Link
+  className="text-sm font-medium hover:text-indigo-600"
+  href="https://learningdestiny.edumilestones.com/"
+  onClick={toggleMobileMenu}
+>
+  About Us
+</Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/Events">Events</Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/workshop">Workshops</Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/inten">Internship</Link>
@@ -191,7 +197,13 @@ export function Header() {
           </form>
           <nav className="flex flex-col space-y-4">
             <Link className="text-sm font-medium hover:text-indigo-600" href="/Courses" onClick={toggleMobileMenu}>Courses</Link>
-            <Link className="text-sm font-medium hover:text-indigo-600" href="/AboutUs" onClick={toggleMobileMenu}>About Us</Link>
+            <Link
+  className="text-sm font-medium hover:text-indigo-600"
+  href="https://learningdestiny.edumilestones.com/"
+  onClick={toggleMobileMenu}
+>
+  About Us
+</Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/Events" onClick={toggleMobileMenu}>Events</Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/workshop" onClick={toggleMobileMenu}>Workshops</Link>
             <Link className="text-sm font-medium hover:text-indigo-600" href="/inten" onClick={toggleMobileMenu}>Internship</Link>
@@ -248,15 +260,9 @@ function HeroSection() {
                 <Link href="/sign-in" className="inline-block bg-primary text-white py-3 px-6 rounded-lg shadow-lg hover:bg-primary-dark transition duration-300 mb-4 md:mb-0">
                   Get Started
                 </Link>
-                <a
-  href="https://learningdestiny.edumilestones.com/"
-  className="inline-block bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-primary transition duration-300"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  Learn More
-</a>
-
+                <Link href="/AboutUs" className="inline-block bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-primary transition duration-300">
+                  Learn More
+                </Link>
               </div>
             </div>
           </div>

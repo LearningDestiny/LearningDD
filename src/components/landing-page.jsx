@@ -248,9 +248,15 @@ function HeroSection() {
                 <Link href="/sign-in" className="inline-block bg-primary text-white py-3 px-6 rounded-lg shadow-lg hover:bg-primary-dark transition duration-300 mb-4 md:mb-0">
                   Get Started
                 </Link>
-                <Link href="/AboutUs" className="inline-block bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-primary transition duration-300">
-                  Learn More
-                </Link>
+                <a
+  href="https://learningdestiny.edumilestones.com/"
+  className="inline-block bg-transparent border-2 border-white text-white py-3 px-6 rounded-lg hover:bg-white hover:text-primary transition duration-300"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Learn More
+</a>
+
               </div>
             </div>
           </div>

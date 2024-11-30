@@ -132,17 +132,22 @@ const Internships = () => {
 
   if (isLoading) {
     return (
+      <>
+ <Header />
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        <Header />
+        
         <p className="text-xl">Loading internships...</p>
       </div>
+      </>
     )
   }
 
   if (error) {
     return (
+            <>
+               <Header />
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        <Header />
+        
         <p className="text-xl text-red-500">{error}</p>
         <button 
           onClick={fetchInternships}
@@ -151,6 +156,7 @@ const Internships = () => {
           Try Again
         </button>
       </div>
+</>
     )
   }
 

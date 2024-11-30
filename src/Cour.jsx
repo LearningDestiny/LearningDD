@@ -148,27 +148,23 @@ const Courses = () => {
         </section>
 
         {/* All Courses Section */}
-        <section className="px-4 sm:px-6 lg:px-8 py-8">
-  <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-    All Courses
-  </h2>
+        <section>
+          <h2 className="text-4xl font-bold mb-8 text-center text-white">All Courses</h2>
+      
 
-  <div
-    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 
-               items-center"
-  >
-    {courses.map((course) => (
-      <CourseCard
-        key={course.id}
-        course={course}
-        isHovered={hoveredAllCourse}
-        setHovered={setHoveredAllCourse}
-        isPopular={false}
-      />
-    ))}
-  </div>
-</section>
+          <div class="grid grid-cols-1 justify-center sm:justify-center md:grid-cols-3 lg:grid-cols-4 gap-8">
 
+            {courses.map((course) => (
+              <CourseCard
+                key={course.id}
+                course={course}
+                isHovered={hoveredAllCourse}
+                setHovered={setHoveredAllCourse}
+                isPopular={false}
+              />
+            ))}
+          </div>
+        </section>
       </div>
 
       {/* Enrollment Form Modal */}

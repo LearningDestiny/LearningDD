@@ -50,20 +50,19 @@ const Internships = () => {
         paddingTop: "70%",
         borderRadius: "8px",
         overflow: "hidden",
-        transition: "transform 0.3s ease-in-out",
         cursor: "pointer",
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
         border: "2px solid #3b82f6",
         margin: "8px",
-        minWidth: "250px"
+        minWidth: "250px",
       }}
       onMouseEnter={() => setHoveredInternship(internship.id)}
       onMouseLeave={() => setHoveredInternship(null)}
       className="transform transition duration-300 hover:scale-105"
     >
-      <img 
-        src={internship.imageUrl} 
-        alt={internship.title} 
+      <img
+        src={internship.imageUrl}
+        alt={internship.title}
         style={{
           position: "absolute",
           top: 0,
@@ -71,7 +70,7 @@ const Internships = () => {
           width: "100%",
           height: "100%",
           objectFit: "cover",
-        }} 
+        }}
       />
       <div
         style={{
@@ -89,30 +88,33 @@ const Internships = () => {
         <p className="font-bold text-sm mt-1">{internship.stipend}</p>
       </div>
       {hoveredInternship === internship.id && (
-        <div style={{
-          position: "absolute",
-          inset: 0,
-          padding: "16px",
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          opacity: 1,
-          zIndex: 10,
-          transition: "opacity 0.3s ease-in-out",
-          borderRadius: "8px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-        }}>
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            padding: "16px",
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            zIndex: 10,
+            borderRadius: "8px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
           <h4 className="font-semibold text-sm">{internship.title}</h4>
-          <p className="text-xs mt-2">{internship.company} · {internship.duration}</p>
+          <p className="text-xs mt-2">
+            {internship.company} · {internship.duration}
+          </p>
           <p className="text-xs mt-2">{internship.description}</p>
           <ul className="text-xs mt-2">
-            {internship.highlights && internship.highlights.map((highlight, index) => (
-              <li key={index} className="flex items-center mt-0">
-                <FaBriefcase className="mr-1 text-blue-500" /> {highlight}
-              </li>
-            ))}
+            {internship.highlights &&
+              internship.highlights.map((highlight, index) => (
+                <li key={index} className="flex items-center mt-0">
+                  <FaBriefcase className="mr-1 text-blue-500" /> {highlight}
+                </li>
+              ))}
           </ul>
           <Link href={`/InternshipApplication?id=${internship.id}`} passHref>
             <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded lg:py-2 sm:py-2">
@@ -133,51 +135,46 @@ const Internships = () => {
   if (isLoading) {
     return (
       <>
- <Header />
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        
-        <p className="text-xl">Loading internships...</p>
-      </div>
+        <Header />
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-gray-100">
+          <p className="text-xl">Loading internships...</p>
+        </div>
       </>
     )
   }
 
   if (error) {
     return (
-            <>
-               <Header />
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-gray-900 text-white">
-        
-        <p className="text-xl text-red-500">{error}</p>
-        <button 
-          onClick={fetchInternships}
-          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        >
-          Try Again
-        </button>
-      </div>
-</>
+      <>
+        <Header />
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-gray-100">
+          <p className="text-xl text-red-500">{error}</p>
+          <button
+            onClick={fetchInternships}
+            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          >
+            Try Again
+          </button>
+        </div>
+      </>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-gray-900 text-black-100 px-4">
+    <div className="min-h-screen bg-gray-800">
       <Header />
-      
-      {/* All Internships Section */}
-      <section>
-        <h2 className="text-4xl font-bold mb-8 text-center text-white">All Internships</h2>
+      <section className="px-4 py-8">
+        <h2 className="text-4xl font-bold mb-8 text-center text-gray-100">
+          All Internships
+        </h2>
         {internships.length > 0 ? (
           <div className="md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {internships.map((internship) => (
-              <InternshipCard
-                key={internship.id}
-                internship={internship}
-              />
+              <InternshipCard key={internship.id} internship={internship} />
             ))}
           </div>
         ) : (
-          <p className="text-center text-white">No internships available</p>
+          <p className="text-center text-gray-700">No internships available</p>
         )}
       </section>
     </div>

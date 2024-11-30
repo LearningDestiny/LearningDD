@@ -131,7 +131,7 @@ export function Header() {
       <div className="container mx-auto flex items-center justify-between">
         <Link href="/landing-page" className="flex items-center">
           <Image src="/TransparentLogo.png" alt="Learning Destiny Logo" width={32} height={32} className="mr-2" />
-          <span className="text-lg font-semibold hidden sm:inline">Learning Destiny Pvt. Ltd.</span>
+          <span className="text-lg font-semibold sm:inline">Learning Destiny Pvt. Ltd.</span>
         </Link>
 
         <div className="flex items-center space-x-4">
